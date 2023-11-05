@@ -1,7 +1,5 @@
-import React from 'react'
+import React from "react";
 
 export default function About() {
-  return (
-    <div className='bg-secondary h-100'>About</div>
-  )
+   return <div className="bg-secondary h-100">About</div>;
 }

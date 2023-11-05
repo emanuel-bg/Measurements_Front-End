@@ -9,9 +9,9 @@ function UserLogin(props) {
 
    const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
-   const [passwordError, setpasswordError] = useState("");
-   const [emailError, setemailError] = useState("");
- 
+   // const [passwordError, setpasswordError] = useState("");
+   // const [emailError, setemailError] = useState("");
+
    const handleLogin = async (e) => {
       e.preventDefault();
       simulateLogin(email, password)
@@ -27,43 +27,46 @@ function UserLogin(props) {
 
    return (
       <div className="container">
-        <div className="row d-flex justify-content-center vh-100 align-items-center">
-          <div className="col-md-4">
-            <form id="loginform" onSubmit={handleLogin}>
-              <div className="form-group">
-                <label>Email address</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  id="EmailInput"
-                  name="EmailInput"
-                  aria-describedby="emailHelp"
-                  placeholder="Enter email"
-                  onChange={(event) => setEmail(event.target.value)}
-                />
-                <small id="emailHelp" className="text-danger form-text">
-                  {emailError}
-                </small>
-              </div>
-              <div className="form-group">
-                <label>Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="exampleInputPassword1"
-                  placeholder="Password"
-                  onChange={(event) => setPassword(event.target.value)}
-                />
-                <small id="passworderror" className="text-danger form-text">
-                  {passwordError}
-                </small>
-              </div>
-              <button type="submit" className="btn btn-primary mt-2">
-                Login
-              </button>
-            </form>
-          </div>
-        </div>
+         <div className="row d-flex justify-content-center vh-100 align-items-center">
+            <div className="col-md-4">
+               <form id="loginform" onSubmit={handleLogin}>
+                  <div className="form-group">
+                     <label>Email address</label>
+                     <input
+                        type="email"
+                        className="form-control"
+                        id="EmailInput"
+                        name="EmailInput"
+                        aria-describedby="emailHelp"
+                        placeholder="Enter email"
+                        onChange={(event) => setEmail(event.target.value)}
+                     />
+                     {/* <small id="emailHelp" className="text-danger form-text">
+                        {emailError}
+                     </small> */}
+                  </div>
+                  <div className="form-group">
+                     <label>Password</label>
+                     <input
+                        type="password"
+                        className="form-control"
+                        id="exampleInputPassword1"
+                        placeholder="Password"
+                        onChange={(event) => setPassword(event.target.value)}
+                     />
+                     {/* <small
+                        id="passworderror"
+                        className="text-danger form-text"
+                     >
+                        {passwordError}
+                     </small> */}
+                  </div>
+                  <button type="submit" className="btn btn-primary mt-2">
+                     Sign in
+                  </button>
+               </form>
+            </div>
+         </div>
       </div>
    );
 }

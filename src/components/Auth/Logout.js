@@ -14,9 +14,9 @@ function Logout() {
    return (
       <>
          Signed in as:{" "}
-         <a title="Cerrar Sesion" href="" onClick={UserLogout}>
+         <button title="Cerrar Sesion" className="btn" onClick={UserLogout}>
             {user.username}
-         </a>
+         </button>
       </>
    );
 }
