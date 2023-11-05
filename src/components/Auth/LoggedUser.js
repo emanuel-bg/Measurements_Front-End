@@ -1,16 +1,26 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import Logout from "./Logout";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import NavBar from "../LoggedUser/NavBar";
+import Home from "../LoggedUser/Home";
+import About from "../LoggedUser/About";
+import Profile from "../LoggedUser/Profile";
 export default function LoggedUser(props) {
    const user = useSelector((state) => state.user);
    return (
       <>
          {" "}
          <div>
-            <h1>name: {user.name}</h1>
-            <h1>username:{user.username}</h1>
-            <h1>email:{user.email}</h1>
-            <Logout />
+            <BrowserRouter>
+               <div className="vh-100">
+                  <NavBar />
+                  <Routes>
+                     <Route path="/" element={<Home />} />
+                     <Route path="/about" element={<About />} />
+                     <Route path="/profile" element={<Profile />} />
+                  </Routes>
+               </div>
+            </BrowserRouter>
          </div>
       </>
    );

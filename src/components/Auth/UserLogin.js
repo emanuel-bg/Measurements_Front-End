@@ -9,7 +9,9 @@ function UserLogin(props) {
 
    const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
-
+   const [passwordError, setpasswordError] = useState("");
+   const [emailError, setemailError] = useState("");
+ 
    const handleLogin = async (e) => {
       e.preventDefault();
       simulateLogin(email, password)
@@ -25,40 +27,43 @@ function UserLogin(props) {
 
    return (
       <div className="container">
-         <h2>Iniciar sesión</h2>
-         <form onSubmit={handleLogin}>
-            <div className="form-group">
-               <label htmlFor="email">Correo electrónico</label>
-               <input
+        <div className="row d-flex justify-content-center vh-100 align-items-center">
+          <div className="col-md-4">
+            <form id="loginform" onSubmit={handleLogin}>
+              <div className="form-group">
+                <label>Email address</label>
+                <input
                   type="email"
                   className="form-control"
-                  id="email"
-                  placeholder="Ingresa tu correo electrónico"
-                  onChange={(e) => {
-                     setEmail(e.target.value);
-                     console.log(email);
-                  }}
-                  value={email}
-               />
-            </div>
-            <div className="form-group">
-               <label htmlFor="password">Contraseña</label>
-               <input
+                  id="EmailInput"
+                  name="EmailInput"
+                  aria-describedby="emailHelp"
+                  placeholder="Enter email"
+                  onChange={(event) => setEmail(event.target.value)}
+                />
+                <small id="emailHelp" className="text-danger form-text">
+                  {emailError}
+                </small>
+              </div>
+              <div className="form-group">
+                <label>Password</label>
+                <input
                   type="password"
                   className="form-control"
-                  id="password"
-                  placeholder="Ingresa tu contraseña"
-                  onChange={(e) => {
-                     setPassword(e.target.value);
-                     console.log(password);
-                  }}
-                  value={password}
-               />
-            </div>
-            <button type="submit" className="btn btn-primary">
-               Iniciar sesión
-            </button>
-         </form>
+                  id="exampleInputPassword1"
+                  placeholder="Password"
+                  onChange={(event) => setPassword(event.target.value)}
+                />
+                <small id="passworderror" className="text-danger form-text">
+                  {passwordError}
+                </small>
+              </div>
+              <button type="submit" className="btn btn-primary mt-2">
+                Login
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
    );
 }
