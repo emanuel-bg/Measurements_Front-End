@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import UserLogin from "./components/Auth/UserLogin";
 import LoggedUser from "./components/Auth/LoggedUser";
 import { useSelector } from "react-redux";
@@ -8,7 +8,10 @@ import "./App.css";
 function App() {
    const user = useSelector((state) => state.user);
    console.log(user);
-   return <>{!user.name ? <UserLogin /> : <LoggedUser />}</>;
+   return <><div className="bg-dark">
+   {!user.name ? <UserLogin /> : <LoggedUser />}
+   </div>
+   </>;
 }
 
 export default App;

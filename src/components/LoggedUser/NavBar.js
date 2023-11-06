@@ -7,23 +7,18 @@ export default function NavBar() {
       <>
          <Navbar bg="dark" data-bs-theme="dark">
             <Container>
-               <Navbar.Brand>
-                     <Link to="/" className="navbar-brand">
-                        <button className="btn btn-lg">Home</button>
-                     </Link>
-                     </Navbar.Brand>
+               <Link to="/" className="navbar-brand">
+                  <button className="btn btn-lg">Home</button>
+               </Link>
+
                <Nav className="me-auto">
-                  
-                  <Nav.Link>
-                     <Link to="/about">
-                        <button className="btn">About</button>
-                     </Link>
-                  </Nav.Link>
-                  <Nav.Link>
-                     <Link to="/Profile">
-                        <button className="btn">Profile</button>
-                     </Link>
-                  </Nav.Link>
+                  <Link to="/about">
+                     <button className="btn">About</button>
+                  </Link>
+
+                  <Link to="/Profile">
+                     <button className="btn">Profile</button>
+                  </Link>
                </Nav>
                <Navbar.Collapse className="justify-content-end">
                   <Navbar.Text>

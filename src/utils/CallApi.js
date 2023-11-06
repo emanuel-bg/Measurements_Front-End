@@ -6,7 +6,7 @@ const user = {
 
 export function simulateLogin(email, password) {
    return new Promise((resolve, reject) => {
-      if (email === user.email && password === "123") {
+      if (email === user.email && password === "Ema123!") {
          resolve(user);
       } else {
          reject(new Error("Credenciales incorrectas"));

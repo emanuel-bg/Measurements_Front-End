@@ -2,31 +2,61 @@ import React, { useState } from "react";
 import { simulateLogin } from "../../utils/CallApi";
 import { useDispatch } from "react-redux";
 import { addUser } from "../../redux/userSlice";
+import { validateEmail, validatePassword } from "../../utils/Validations";
 // import axios from "axios";
 
 function UserLogin(props) {
-   const dispatch = useDispatch();
+   const userData_InitialState = {
+      email: "",
+      password: "",
+   };
 
-   const [email, setEmail] = useState("");
-   const [password, setPassword] = useState("");
-   // const [passwordError, setpasswordError] = useState("");
-   // const [emailError, setemailError] = useState("");
+   const handleChange = (e) => {
+      let value = e.target.value;
+      let name = e.target.name;
+      setuserData((prevalue) => {
+         return { ...prevalue, [name]: value };
+      });
+   };
+
+   const dispatch = useDispatch();
+   const [userData, setuserData] = useState(userData_InitialState);
+   const [formError, setFormError] = useState({});
 
    const handleLogin = async (e) => {
       e.preventDefault();
-      simulateLogin(email, password)
-         .then((user) => {
-            dispatch(addUser(user));
-            console.log("Inicio de sesión exitoso:", user);
-         })
-         .catch((error) => {
-            // Maneja errores de autenticación
-            console.error("Error de inicio de sesión:", error.message);
-         });
+
+      setFormError({});
+      let errors = {};
+      let formOk = true;
+
+      if (!validateEmail(userData.email)) {
+         errors.email = true;
+         errors.emailText = "Invalid email format";
+         formOk = false;
+      }
+      if (!validatePassword(userData.password)) {
+         errors.password = true;
+         errors.passwordText =
+            "The password does not meet the password policy requirements";
+         formOk = false;
+      }
+      setFormError(errors);
+      if (formOk) {
+         simulateLogin(userData.email, userData.password)
+            .then((user) => {
+               dispatch(addUser(user));
+               console.log("Inicio de sesión exitoso:", user);
+            })
+            .catch((error) => {
+               // Maneja errores de autenticación
+               console.error("Error de inicio de sesión:", error.message);
+            });
+      }
    };
 
    return (
-      <div className="container">
+      <div className="container ">
          <div className="row d-flex justify-content-center vh-100 align-items-center">
             <div className="col-md-4">
                <form id="loginform" onSubmit={handleLogin}>
@@ -36,14 +66,16 @@ function UserLogin(props) {
                         type="email"
                         className="form-control"
                         id="EmailInput"
-                        name="EmailInput"
+                        name="email"
                         aria-describedby="emailHelp"
                         placeholder="Enter email"
-                        onChange={(event) => setEmail(event.target.value)}
+                        onChange={handleChange}
                      />
-                     {/* <small id="emailHelp" className="text-danger form-text">
-                        {emailError}
-                     </small> */}
+                     {formError.email && (
+                        <span className="text-danger">
+                           {formError.emailText}
+                        </span>
+                     )}
                   </div>
                   <div className="form-group">
                      <label>Password</label>
@@ -51,15 +83,15 @@ function UserLogin(props) {
                         type="password"
                         className="form-control"
                         id="exampleInputPassword1"
+                        name="password"
                         placeholder="Password"
-                        onChange={(event) => setPassword(event.target.value)}
+                        onChange={handleChange}
                      />
-                     {/* <small
-                        id="passworderror"
-                        className="text-danger form-text"
-                     >
-                        {passwordError}
-                     </small> */}
+                     {formError.password && (
+                        <span className="text-danger">
+                           {formError.passwordText}
+                        </span>
+                     )}
                   </div>
                   <button type="submit" className="btn btn-primary mt-2">
                      Sign in
