@@ -1,16 +1,29 @@
 import React, { useState } from "react";
-import { simulateLogin } from "../../utils/CallApi";
 import { useDispatch } from "react-redux";
-import { addUser } from "../../redux/userSlice";
+import { userLogin } from "../../redux/userSlice";
 import { validateEmail, validatePassword } from "../../utils/Validations";
-// import axios from "axios";
 
-function UserLogin(props) {
-   const userData_InitialState = {
+// import axios from "axios";
+function validate(userData) {
+   let errors = {};
+   if (!validateEmail(userData.email)) {
+      errors.emailText = "Invalid email format";
+   }
+   if (!validatePassword(userData.password)) {
+      errors.passwordText =
+         "The password does not meet the password policy requirements";
+   }
+
+   return errors;
+}
+
+function UserLogin() {
+   const userDataInitialState = {
       email: "",
       password: "",
    };
-
+   const [userData, setuserData] = useState(userDataInitialState);
+   const [formError, setFormError] = useState({});
    const handleChange = (e) => {
       let value = e.target.value;
       let name = e.target.name;
@@ -20,38 +33,16 @@ function UserLogin(props) {
    };
 
    const dispatch = useDispatch();
-   const [userData, setuserData] = useState(userData_InitialState);
-   const [formError, setFormError] = useState({});
 
    const handleLogin = async (e) => {
       e.preventDefault();
-
       setFormError({});
-      let errors = {};
-      let formOk = true;
+      const errors = validate(userData);
 
-      if (!validateEmail(userData.email)) {
-         errors.email = true;
-         errors.emailText = "Invalid email format";
-         formOk = false;
-      }
-      if (!validatePassword(userData.password)) {
-         errors.password = true;
-         errors.passwordText =
-            "The password does not meet the password policy requirements";
-         formOk = false;
-      }
       setFormError(errors);
-      if (formOk) {
-         simulateLogin(userData.email, userData.password)
-            .then((user) => {
-               dispatch(addUser(user));
-               console.log("Inicio de sesión exitoso:", user);
-            })
-            .catch((error) => {
-               // Maneja errores de autenticación
-               console.error("Error de inicio de sesión:", error.message);
-            });
+      const formOk = Object.keys(errors).length;
+      if (!formOk) {
+         dispatch(userLogin(userData));
       }
    };
 
@@ -71,11 +62,11 @@ function UserLogin(props) {
                         placeholder="Enter email"
                         onChange={handleChange}
                      />
-                     {formError.email && (
+                     {
                         <span className="text-danger">
                            {formError.emailText}
                         </span>
-                     )}
+                     }
                   </div>
                   <div className="form-group">
                      <label>Password</label>
@@ -87,11 +78,11 @@ function UserLogin(props) {
                         placeholder="Password"
                         onChange={handleChange}
                      />
-                     {formError.password && (
+                     {
                         <span className="text-danger">
                            {formError.passwordText}
                         </span>
-                     )}
+                     }
                   </div>
                   <button type="submit" className="btn btn-primary mt-2">
                      Sign in

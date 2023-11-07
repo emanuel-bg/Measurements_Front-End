@@ -1,15 +1,46 @@
 /* eslint-disable no-useless-escape */
 export function validateEmail(email) {
-  const val =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return val.test(String(email).toLowerCase());
+   const val = /^\S+@\S+\.\S+$/;
+   return val.test(String(email).toLowerCase());
 }
 export function validatePassword(password) {
-  const pass = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{5,}$/;
-//   Contiene al menos una letra mayúscula.
-//   Contiene al menos una letra minúscula.
-//   Contiene al menos un dígito numérico.
-//   Contiene al menos un carácter especial de la lista #?!@$%^&*-.
-//   Tiene una longitud mínima de 5 caracteres.
-  return pass.test(password);
+   // Definir los criterios de la contraseña
+   var minLongitud = 5;
+   var maxLongitud = 20;
+   var tieneMayuscula = false;
+   var tieneMinuscula = false;
+   var tieneDigito = false;
+   var tieneEspecial = false;
+   var caracteresEspeciales = "$@$!%*?&";
+
+   // Comprobar la longitud de la contraseña
+   if (password.length < minLongitud || password.length > maxLongitud) {
+      return false;
+   }
+
+   // Recorrer cada carácter de la contraseña
+   for (var i = 0; i < password.length; i++) {
+      var caracter = password[i];
+
+      // Comprobar si es una letra mayúscula
+      if (caracter >= "A" && caracter <= "Z") {
+         tieneMayuscula = true;
+      }
+
+      // Comprobar si es una letra minúscula
+      if (caracter >= "a" && caracter <= "z") {
+         tieneMinuscula = true;
+      }
+
+      // Comprobar si es un dígito
+      if (caracter >= "0" && caracter <= "9") {
+         tieneDigito = true;
+      }
+
+      // Comprobar si es un carácter especial
+      if (caracteresEspeciales.indexOf(caracter) !== -1) {
+         tieneEspecial = true;
+      }
+   }
+   return tieneMayuscula && tieneMinuscula && tieneDigito && tieneEspecial;
 }
