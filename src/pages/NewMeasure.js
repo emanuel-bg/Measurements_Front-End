@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { PostMeasure, addMeasure } from "../redux/measuresSlice";
+import { PostMeasure } from "../redux/measuresSlice";
 import {
    validateMeasureId,
    validateMeasureAmount,
@@ -54,7 +54,6 @@ export default function NewMeasure() {
       setmeasureData((prevData) => {
          return { ...prevData, [name]: value };
       });
-      console.log(measureData);
    };
    const navigate = useNavigate();
    const dispatch = useDispatch();
@@ -68,7 +67,6 @@ export default function NewMeasure() {
       if (!formOk) {
          console.log(measureData);
          dispatch(PostMeasure(measureData));
-         dispatch(addMeasure(measureData));
          console.log("Se actualizo measures");
          navigate("/");
       }

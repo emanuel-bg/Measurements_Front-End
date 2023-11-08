@@ -47,9 +47,10 @@ function UserLogin() {
    };
 
    return (
-      <div className="container ">
+      <div className="container text-light">
          <div className="row d-flex justify-content-center vh-100 align-items-center">
             <div className="col-md-4">
+            <h1 className="text-center">Login</h1>
                <form id="loginform" onSubmit={handleLogin}>
                   <div className="form-group">
                      <label>Email address</label>

@@ -1,11 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getMeasures, postMeasure } from "../utils/CallApi";
+import { getMeasures, postMeasure, deleteMeasure } from "../utils/CallApi";
 
 export const initialState = {
    measures: [
-      { id: "1", amount: "200", date: "2023-11-26", measuredby: "Emmanuel Barrientos", userId: "1" },
-      { id: "2", amount: "1000", date: "2023-11-26", measuredby: "Emmanuel Barrientos", userId: "1" },
+      {
+         id: "1",
+         amount: "200",
+         date: "2023-11-26",
+         measuredby: "Emmanuel Barrientos",
+         userId: "1",
+      },
+      {
+         id: "2",
+         amount: "1000",
+         date: "2023-11-26",
+         measuredby: "Emmanuel Barrientos",
+         userId: "1",
+      },
    ],
 };
 
@@ -56,23 +68,21 @@ const PostMeasure = createAsyncThunk(
 //    }
 // );
 
-// const DeleteMeasure = createAsyncThunk(
-//    "measures/deleteMeasure",
-//    async (measureId, thunkAPI) => {
-//       try {
-//       } catch (error) {
-//          throw error;
-//       }
-//    }
-// );
+const DeleteMeasure = createAsyncThunk(
+   "measures/deleteMeasure",
+   async (measureId, thunkAPI) => {
+      try {
+         const response = await deleteMeasure(measureId);
+         return response;
+      } catch (error) {
+         throw error;
+      }
+   }
+);
 export const measuresSlice = createSlice({
    name: "measures",
    initialState,
-   reducers: {
-      addMeasure: (state, action) => {
-         state.measures = [...state.measures, action.payload];
-      },
-   },
+   reducers: {},
    extraReducers: (builder) => {
       // Add reducers for additional action types here, and handle loading state as needed
       builder
@@ -80,12 +90,18 @@ export const measuresSlice = createSlice({
             state.measures = action.payload;
          })
          .addCase(PostMeasure.fulfilled, (state, action) => {
-            console.log("Measure Inserted:");
-            console.log(action.payload)
+            state.measures = [...state.measures, action.payload];
+         })
+         .addCase(DeleteMeasure.fulfilled, (state, action) => {
+            const measures = state.measures.filter(
+               (o) => o.id !== action.payload
+            );
+            console.log(measures);
+            state.measures = measures;
          });
    },
 });
 
 export default measuresSlice.reducer;
-export { GetMeasures, PostMeasure };
-export const { addMeasure } = measuresSlice.actions;
+export { GetMeasures, PostMeasure, DeleteMeasure };
+//export const { } = measuresSlice.actions;

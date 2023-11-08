@@ -3,18 +3,26 @@
 //    timeout: 1000,
 //    headers: {'X-Custom-Header': 'foobar'}
 //  });
-import { useSelector } from "react-redux/es/hooks/useSelector";
 const user = {
    name: "Emanuel Barrientos Guerrero",
    username: "Emanuel",
    email: "ema@gmail.com",
 };
 const data = [
-   { id: "1", amount: "1", date: "23", measuredby: "Ema123", userId: "123" },
-   { id: "2", amount: "1", date: "23", measuredby: "Ema123", userId: "123" },
-   { id: "3", amount: "1", date: "23", measuredby: "Ema123", userId: "123" },
-   { id: "4", amount: "1", date: "23", measuredby: "Ema123", userId: "123" },
-   { id: "5", amount: "1", date: "23", measuredby: "Ema123", userId: "123" },
+   {
+      id: "1",
+      amount: "200",
+      date: "2023-11-26",
+      measuredby: "Emmanuel Barrientos",
+      userId: "1",
+   },
+   {
+      id: "2",
+      amount: "1000",
+      date: "2023-11-26",
+      measuredby: "Emmanuel Barrientos",
+      userId: "1",
+   },
 ];
 export function simulateLogin(email, password) {
    return new Promise((resolve, reject) => {
@@ -28,7 +36,7 @@ export function simulateLogin(email, password) {
 export async function getMeasures() {
    return new Promise((resolve, reject) => {
       try {
-         const response = data
+         const response = data;
          resolve(response);
       } catch (error) {}
    });
@@ -36,9 +44,19 @@ export async function getMeasures() {
 export async function postMeasure(measure) {
    return new Promise((resolve, reject) => {
       try {
-         const response = measure
-         console.log(measure)
+         const response = measure;
+         console.log(measure);
          resolve(measure);
+      } catch (error) {
+         throw error;
+      }
+   });
+}
+export async function deleteMeasure(measureId) {
+   return new Promise((resolve, reject) => {
+      try {
+         const response = measureId;
+         resolve(measureId);
       } catch (error) {
          throw error;
       }

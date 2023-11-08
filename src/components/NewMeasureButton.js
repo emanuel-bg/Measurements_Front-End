@@ -7,7 +7,9 @@ export default function NewMeasureButton() {
          <button
             title="New Measure"
             className="btn btn-primary btn-lg w-25 text-light mb-2 align-self-end"
-            onClick={()=>{navigate("/measure/new")}}
+            onClick={() => {
+               navigate("/measure/new");
+            }}
          >
             New Measure
          </button>
