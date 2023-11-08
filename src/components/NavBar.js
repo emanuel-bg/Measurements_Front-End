@@ -1,7 +1,7 @@
 import React from "react";
 import { Nav, Navbar, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import Logout from "../Auth/Logout";
+import Logout from "./Auth/Logout";
 export default function NavBar() {
    return (
       <>

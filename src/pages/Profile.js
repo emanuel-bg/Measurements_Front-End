@@ -7,8 +7,8 @@ export default function Profile() {
    const user=useSelector((state)=>(state.user))
    return (
       <>
-         <div className="bg-dark h-100">
-            <div className="row h-100 flex justify-content-center p-5">
+         <div className="bg-dark vh-100">
+            <div className="row w-100 h-100 flex justify-content-center mt-5">
                <div className="col-3">
                   <div className="card p-2">
                      <img

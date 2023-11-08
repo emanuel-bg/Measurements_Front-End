@@ -32,9 +32,6 @@ export const userSlice = createSlice({
          state.email = email;
          state.image = image;
       },
-      changeEmail: (state, action) => {
-         state.email = action.payload;
-      },
    },
    extraReducers: (builder) => {
       // Add reducers for additional action types here, and handle loading state as needed

@@ -1,17 +1,21 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GetMeasures } from "../../redux/measuresSlice";
+import { GetMeasures } from "../redux/measuresSlice";
+import NewMeasureButton from "../components/NewMeasureButton";
 
 export default function Home() {
    const dispatch = useDispatch();
    const measures = useSelector((state) => state.measures);
-   useEffect(() => {
-      dispatch(GetMeasures());
-   }, [dispatch]);
+
+   // useEffect(() => {
+   //    dispatch(GetMeasures());
+   // }, [dispatch]);
 
    return (
-      <div className="bg-dark h-100">
-         <div className="m-4">
+      <div className="bg-dark vh-100">
+         <div className="d-flex flex-column m-4">
+            <NewMeasureButton />
+
             <table className="table ">
                <thead>
                   <tr>
@@ -20,7 +24,6 @@ export default function Home() {
                      <th>Date</th>
                      <th>Measured by</th>
                      <th>User ID</th>
-               
                   </tr>
                </thead>
                <tbody>
@@ -30,7 +33,7 @@ export default function Home() {
                         <td>{d.amount}</td>
                         <td>{d.date}</td>
                         <td>{d.measuredby}</td>
-                        <td>{d.UserID}</td>
+                        <td>{d.userId}</td>
                      </tr>
                   ))}
                </tbody>

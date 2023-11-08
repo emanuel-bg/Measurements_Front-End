@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
-import NavBar from "../LoggedUser/NavBar";
-import Content from "../../routes/Content";
+import NavBar from "../components/NavBar";
+import Content from "../routes/routes";
 
 export default function LoggedUser(props) {
    return (
@@ -9,7 +9,7 @@ export default function LoggedUser(props) {
          {" "}
          <div>
             <BrowserRouter>
-               <div className="text-light vh-100">
+               <div className="text-light">
                   <NavBar />
                   <Content />
                </div>

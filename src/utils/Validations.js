@@ -44,3 +44,25 @@ export function validatePassword(password) {
    }
    return tieneMayuscula && tieneMinuscula && tieneDigito && tieneEspecial;
 }
+
+export function validateMeasureId(measureData) {
+   // const val = /^\S+@\S+\.\S+$/;
+   return false;
+}
+// export function validateMeasureId(measureData) {
+//    const val = /^\S+@\S+\.\S+$/;
+//    return val.test(String(email).toLowerCase());
+// }
+export function validateMeasureAmount(measureData) {
+   return false;
+}
+export function validateMeasureDate(measureData) {
+   return false;
+}
+export function validateMeasureMeasuredby(measureData) {
+   return false;
+}
+
+export function validateMeasureUserId(measureData) {
+   return false;
+}

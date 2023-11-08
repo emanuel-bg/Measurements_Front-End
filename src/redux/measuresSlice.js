@@ -1,34 +1,40 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getMeasures } from "../utils/CallApi";
+import { getMeasures, postMeasure } from "../utils/CallApi";
 
 export const initialState = {
-   measures: [],
+   measures: [
+      { id: "1", amount: "200", date: "2023-11-26", measuredby: "Emmanuel Barrientos", userId: "1" },
+      { id: "2", amount: "1000", date: "2023-11-26", measuredby: "Emmanuel Barrientos", userId: "1" },
+   ],
 };
 
 // Measures
 const GetMeasures = createAsyncThunk(
    "measures/getMeasures",
-   async (thunkAPI) => {
+   async (measures, thunkAPI) => {
       try {
-         const measures = await getMeasures();
-         return measures;
+         const response = await getMeasures();
+         return response;
       } catch (error) {
-         console.error("Error al obtener los measures:", error.message);
+         console.error("Error getting the measures:", error.message);
          throw error;
       }
    }
 );
 
-// const PostMeasure = createAsyncThunk(
-//    "measures/postMeasure",
-//    async (measure, thunkAPI) => {
-//       try {
-//       } catch (error) {
-//          throw error;
-//       }
-//    }
-// );
+const PostMeasure = createAsyncThunk(
+   "measures/postMeasure",
+   async (measure, thunkAPI) => {
+      try {
+         const response = await postMeasure(measure);
+         return response;
+      } catch (error) {
+         console.error("Error creating the measure:", error.message);
+         throw error;
+      }
+   }
+);
 
 // const PutMeasure = createAsyncThunk(
 //    "measures/putMeasure",
@@ -59,18 +65,27 @@ const GetMeasures = createAsyncThunk(
 //       }
 //    }
 // );
-
 export const measuresSlice = createSlice({
    name: "measures",
    initialState,
-   reducers: {},
+   reducers: {
+      addMeasure: (state, action) => {
+         state.measures = [...state.measures, action.payload];
+      },
+   },
    extraReducers: (builder) => {
       // Add reducers for additional action types here, and handle loading state as needed
-      builder.addCase(GetMeasures.fulfilled, (state, action) => {
-         state.measures = action.payload;
-      });
+      builder
+         .addCase(GetMeasures.fulfilled, (state, action) => {
+            state.measures = action.payload;
+         })
+         .addCase(PostMeasure.fulfilled, (state, action) => {
+            console.log("Measure Inserted:");
+            console.log(action.payload)
+         });
    },
 });
 
 export default measuresSlice.reducer;
-export { GetMeasures };
+export { GetMeasures, PostMeasure };
+export const { addMeasure } = measuresSlice.actions;
