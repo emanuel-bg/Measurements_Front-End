@@ -35,18 +35,26 @@ export function simulateLogin(email, password) {
 }
 export async function getMeasures() {
    return new Promise((resolve, reject) => {
-      try {
-         const response = data;
-         resolve(response);
-      } catch (error) {}
+      const response = data;
+      resolve(response);
    });
 }
 export async function postMeasure(measure) {
    return new Promise((resolve, reject) => {
       try {
          const response = measure;
-         console.log(measure);
+         console.log(response);
          resolve(measure);
+      } catch (error) {
+         throw error;
+      }
+   });
+}
+export async function putMeasure(measure) {
+   return new Promise((resolve, reject) => {
+      try {
+         const response = measure;
+         resolve(response);
       } catch (error) {
          throw error;
       }
@@ -56,7 +64,7 @@ export async function deleteMeasure(measureId) {
    return new Promise((resolve, reject) => {
       try {
          const response = measureId;
-         resolve(measureId);
+         resolve(response);
       } catch (error) {
          throw error;
       }

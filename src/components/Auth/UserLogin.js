@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userLogin } from "../../redux/userSlice";
 import { validateEmail, validatePassword } from "../../utils/Validations";
@@ -18,6 +19,13 @@ function validate(userData) {
 }
 
 function UserLogin() {
+   const navigate = useNavigate();
+
+useEffect(() => {
+navigate('/')
+}, [navigate])
+
+
    const userDataInitialState = {
       email: "",
       password: "",
@@ -43,6 +51,7 @@ function UserLogin() {
       const formOk = Object.keys(errors).length;
       if (!formOk) {
          dispatch(userLogin(userData));
+         navigate("/");
       }
    };
 
@@ -50,7 +59,7 @@ function UserLogin() {
       <div className="container text-light">
          <div className="row d-flex justify-content-center vh-100 align-items-center">
             <div className="col-md-4">
-            <h1 className="text-center">Login</h1>
+               <h1 className="text-center">Login</h1>
                <form id="loginform" onSubmit={handleLogin}>
                   <div className="form-group">
                      <label>Email address</label>

@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getMeasures, postMeasure, deleteMeasure } from "../utils/CallApi";
+import {
+   getMeasures,
+   postMeasure,
+   deleteMeasure,
+   putMeasure,
+} from "../utils/CallApi";
 
 export const initialState = {
    measures: [
@@ -48,25 +53,17 @@ const PostMeasure = createAsyncThunk(
    }
 );
 
-// const PutMeasure = createAsyncThunk(
-//    "measures/putMeasure",
-//    async (measure, thunkAPI) => {
-//       try {
-//       } catch (error) {
-//          throw error;
-//       }
-//    }
-// );
-
-// const GetMeasure = createAsyncThunk(
-//    "measures/getMeasure",
-//    async (measureId, thunkAPI) => {
-//       try {
-//       } catch (error) {
-//          throw error;
-//       }
-//    }
-// );
+const PutMeasure = createAsyncThunk(
+   "measures/putMeasure",
+   async (measure, thunkAPI) => {
+      try {
+         const response = await putMeasure(measure);
+         return response;
+      } catch (error) {
+         throw error;
+      }
+   }
+);
 
 const DeleteMeasure = createAsyncThunk(
    "measures/deleteMeasure",
@@ -89,19 +86,33 @@ export const measuresSlice = createSlice({
          .addCase(GetMeasures.fulfilled, (state, action) => {
             state.measures = action.payload;
          })
+         .addCase(GetMeasures.rejected, (state, action) => {
+            state.measures = [];
+         })
          .addCase(PostMeasure.fulfilled, (state, action) => {
             state.measures = [...state.measures, action.payload];
+         })
+         .addCase(PutMeasure.fulfilled, (state, action) => {
+            const measures = state.measures;
+            for (let i = 0; i < measures.length; i++) {
+               if (action.payload.id === measures[i].id) {
+                  measures[i].amount = action.payload.amount;
+                  measures[i].date = action.payload.date;
+                  measures[i].measuredby = action.payload.measuredby;
+                  measures[i].userId = action.payload.userId;
+               }
+            }
+            state.measures = measures;
          })
          .addCase(DeleteMeasure.fulfilled, (state, action) => {
             const measures = state.measures.filter(
                (o) => o.id !== action.payload
             );
-            console.log(measures);
             state.measures = measures;
          });
    },
 });
 
 export default measuresSlice.reducer;
-export { GetMeasures, PostMeasure, DeleteMeasure };
+export { GetMeasures, PostMeasure, DeleteMeasure, PutMeasure };
 //export const { } = measuresSlice.actions;

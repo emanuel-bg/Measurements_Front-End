@@ -4,16 +4,18 @@ import { useDispatch, useSelector } from "react-redux";
 import NewMeasureButton from "../components/NewMeasureButton";
 import { Modal, Button } from "react-bootstrap";
 import { DeleteMeasure } from "../redux/measuresSlice";
-
+import { useNavigate } from "react-router-dom";
 export default function Home() {
    const dispatch = useDispatch();
+   const navigate = useNavigate();
    const measures = useSelector((state) => state.measures);
    const [show, setShow] = useState(false);
-   const [selectedToDelete, setselectedToDelete] = useState("");
+   const [selected, setSelected] = useState("");
    const handleClose = () => setShow(false);
+
    const handleShow = (i) => {
       setShow(true);
-      setselectedToDelete(i);
+      setSelected(i);
    };
 
    // useEffect(() => {
@@ -21,10 +23,12 @@ export default function Home() {
    // }, [dispatch]);
 
    const handleDelete = async (i, e) => {
-      dispatch(DeleteMeasure(selectedToDelete));
+      dispatch(DeleteMeasure(selected));
       handleClose();
    };
-
+   const handleEdit = (i) => {
+      navigate("/measure/" + i);
+   };
    return (
       <div className="bg-dark vh-100">
          <div className="d-flex flex-column m-4">
@@ -51,6 +55,13 @@ export default function Home() {
                         <td>{d.userId}</td>
                         <td>
                            <button
+                              className="btn btn-warning me-2"
+                              onClick={() => handleEdit(d.id)}
+                           >
+                              Edit
+                           </button>
+
+                           <button
                               className="btn btn-danger"
                               onClick={() => handleShow(d.id)}
                            >
@@ -67,7 +78,7 @@ export default function Home() {
                <Modal.Title>Delete Measure</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-               Are you sure you want to delete the measure?({selectedToDelete})
+               Are you sure you want to delete the measure?({selected})
             </Modal.Body>
             <Modal.Footer>
                <Button variant="secondary" onClick={handleClose}>
