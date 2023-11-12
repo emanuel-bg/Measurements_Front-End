@@ -5,7 +5,7 @@ import {
    postMeasure,
    deleteMeasure,
    putMeasure,
-} from "../utils/CallApi";
+} from "../API/requests";
 
 export const initialState = {
    measures: [
@@ -23,6 +23,13 @@ export const initialState = {
          measuredby: "Emmanuel Barrientos",
          userId: "1",
       },
+      {
+         id: "3",
+         amount: "1000",
+         date: "2023-11-26",
+         measuredby: "Emmanuel Barrientos",
+         userId: "1",
+      },
    ],
 };
 
@@ -32,7 +39,7 @@ const GetMeasures = createAsyncThunk(
    async (measures, thunkAPI) => {
       try {
          const response = await getMeasures();
-         return response;
+         return response.data;
       } catch (error) {
          console.error("Error getting the measures:", error.message);
          throw error;
@@ -105,8 +112,9 @@ export const measuresSlice = createSlice({
             state.measures = measures;
          })
          .addCase(DeleteMeasure.fulfilled, (state, action) => {
+
             const measures = state.measures.filter(
-               (o) => o.id !== action.payload
+               (o) => o.id !== action.payload.toString()
             );
             state.measures = measures;
          });

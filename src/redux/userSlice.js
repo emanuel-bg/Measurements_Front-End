@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { simulateLogin } from "../utils/CallApi";
+import { Login } from "./../API/requests";
 
 const userLogin = createAsyncThunk("user/login", async (userData, thunkAPI) => {
    try {
-      const user = await simulateLogin(userData.email, userData.password);
+      const user = await Login(userData);
       return user;
    } catch (error) {
       console.error("Error de inicio de sesión:", error.message);
