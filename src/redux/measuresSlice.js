@@ -15,6 +15,7 @@ export const initialState = {
          date: "2023-11-26",
          measuredby: "Emmanuel Barrientos",
          userId: "1",
+         image: {}
       },
       {
          id: "2",
@@ -22,6 +23,7 @@ export const initialState = {
          date: "2023-11-26",
          measuredby: "Emmanuel Barrientos",
          userId: "1",
+         image:{}
       },
       {
          id: "3",
@@ -29,6 +31,7 @@ export const initialState = {
          date: "2023-11-26",
          measuredby: "Emmanuel Barrientos",
          userId: "1",
+         image: {},
       },
    ],
 };
@@ -51,6 +54,7 @@ const PostMeasure = createAsyncThunk(
    "measures/postMeasure",
    async (measure, thunkAPI) => {
       try {
+         debugger
          const response = await postMeasure(measure);
          return response;
       } catch (error) {

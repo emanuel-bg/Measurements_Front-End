@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, {useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { GetMeasures } from "../redux/measuresSlice";
+import { GetMeasures } from "../redux/measuresSlice";
 import NewMeasureButton from "../components/NewMeasureButton";
 import { Modal, Button } from "react-bootstrap";
 import { DeleteMeasure } from "../redux/measuresSlice";
@@ -19,6 +19,7 @@ export default function Home() {
    };
 
    // useEffect(() => {
+   //    debugger
    //    dispatch(GetMeasures());
    // }, [dispatch]);
 

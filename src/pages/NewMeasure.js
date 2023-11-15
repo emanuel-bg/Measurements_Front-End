@@ -38,11 +38,12 @@ function validate(measureData) {
 
 export default function NewMeasure() {
    const measureDataInitialState = {
-      id: "",
-      amount: "",
-      date: "",
-      measuredby: "",
-      userId: "",
+      id: "1",
+      amount: "2",
+      date: "12/12/2000",
+      measuredby: "Ema",
+      userId: "12",
+      image: {},
    };
 
    const [measureData, setmeasureData] = useState(measureDataInitialState);
@@ -55,6 +56,15 @@ export default function NewMeasure() {
          return { ...prevData, [name]: value };
       });
    };
+
+   const handleImage = (e) => {
+      let value = e.target.files[0];
+      setmeasureData((prevData) => {
+         return { ...prevData, image: value };
+      });
+      console.log(measureData);
+   };
+
    const navigate = useNavigate();
    const dispatch = useDispatch();
 
@@ -85,6 +95,7 @@ export default function NewMeasure() {
                   <div className="form-group">
                      <label>ID</label>
                      <input
+                        value={measureData.id}
                         type="text"
                         className="form-control"
                         id="idInput"
@@ -97,6 +108,7 @@ export default function NewMeasure() {
                   <div className="form-group">
                      <label>Amount</label>
                      <input
+                        value={measureData.amount}
                         type="text"
                         className="form-control"
                         id="amountInput"
@@ -109,6 +121,7 @@ export default function NewMeasure() {
                   <div className="form-group">
                      <label>Date</label>
                      <input
+                        value={measureData.date}
                         type="date"
                         className="form-control"
                         id="dateInput"
@@ -121,6 +134,7 @@ export default function NewMeasure() {
                   <div className="form-group">
                      <label>Measured By</label>
                      <input
+                        value={measureData.measuredby}
                         type="text"
                         className="form-control"
                         id="measuredByInput"
@@ -137,6 +151,7 @@ export default function NewMeasure() {
                   <div className="form-group">
                      <label>User ID</label>
                      <input
+                        value={measureData.userId}
                         type="text"
                         className="form-control"
                         id="userIdInput"
@@ -146,6 +161,18 @@ export default function NewMeasure() {
                      />
                      {<span className="text-danger">{formError.userId}</span>}
                   </div>
+                  <div className="form-group">
+                     <label>Image</label>
+                     <input
+                        type="file"
+                        className="form-control"
+                        id="imageInput"
+                        name="image"
+                        onChange={handleImage}
+                     />
+                     {<span className="text-danger">{formError.userId}</span>}
+                  </div>
+
                   <button type="submit" className="btn btn-primary mt-2">
                      Submit
                   </button>
