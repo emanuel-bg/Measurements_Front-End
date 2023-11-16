@@ -10,21 +10,32 @@ export async function getMeasures() {
 }
 
 export async function postMeasure(measure) {
-   debugger
-   if (measure.image.constructor===Object) {
-      const response = await instance.post("/measurements", measure);
+   if (measure.image.constructor === Object) {
+      const formdata = new FormData();
+      formdata.append("id", measure.id);
+      formdata.append("amount", measure.amount);
+      formdata.append("date", measure.date);
+      formdata.append("measuredby", measure.measuredby);
+      formdata.append("userId", measure.userId);
+      formdata.append("imageName", "");
+
+      const response = await instance.post("/measurements", formdata);
       return response.data;
-   }else{
-      const formdata=new FormData()
-      formdata.append("id",measure.id)
-      formdata.append("amount",measure.amount)
-      formdata.append("date", measure.date)
-      formdata.append("measuredby",measure.measuredby)
-      formdata.append("userId", measure.userId)
-      formdata.append("image",measure.image)
-      
-      const response= await instance.post("/measurements/postwithImage",formdata)
-      return response.data
+   } else {
+      debugger
+      const formdata = new FormData();
+      formdata.append("id", measure.id);
+      formdata.append("amount", measure.amount);
+      formdata.append("date", measure.date);
+      formdata.append("measuredby", measure.measuredby);
+      formdata.append("userId", measure.userId);
+      formdata.append("imageName", measure.image.name);
+      formdata.append("image", measure.image);
+      const response = await instance.post(
+         "/measurements/postwithImage",
+         formdata
+      );
+      return response.data;
    }
 }
 

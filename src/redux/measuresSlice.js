@@ -9,30 +9,6 @@ import {
 
 export const initialState = {
    measures: [
-      {
-         id: "1",
-         amount: "200",
-         date: "2023-11-26",
-         measuredby: "Emmanuel Barrientos",
-         userId: "1",
-         image: {}
-      },
-      {
-         id: "2",
-         amount: "1000",
-         date: "2023-11-26",
-         measuredby: "Emmanuel Barrientos",
-         userId: "1",
-         image:{}
-      },
-      {
-         id: "3",
-         amount: "1000",
-         date: "2023-11-26",
-         measuredby: "Emmanuel Barrientos",
-         userId: "1",
-         image: {},
-      },
    ],
 };
 
@@ -54,7 +30,7 @@ const PostMeasure = createAsyncThunk(
    "measures/postMeasure",
    async (measure, thunkAPI) => {
       try {
-         debugger
+      debugger
          const response = await postMeasure(measure);
          return response;
       } catch (error) {
@@ -95,13 +71,14 @@ export const measuresSlice = createSlice({
       // Add reducers for additional action types here, and handle loading state as needed
       builder
          .addCase(GetMeasures.fulfilled, (state, action) => {
+            
             state.measures = action.payload;
          })
          .addCase(GetMeasures.rejected, (state, action) => {
             state.measures = [];
          })
          .addCase(PostMeasure.fulfilled, (state, action) => {
-            state.measures = [...state.measures, action.payload];
+            state.measures = [...state.measures, action.payload.InsertedData];
          })
          .addCase(PutMeasure.fulfilled, (state, action) => {
             const measures = state.measures;
@@ -116,9 +93,8 @@ export const measuresSlice = createSlice({
             state.measures = measures;
          })
          .addCase(DeleteMeasure.fulfilled, (state, action) => {
-
             const measures = state.measures.filter(
-               (o) => o.id !== action.payload.toString()
+               (o) => o.id !== action.payload.deletedId
             );
             state.measures = measures;
          });

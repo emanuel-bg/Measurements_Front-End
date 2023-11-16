@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GetMeasures } from "../redux/measuresSlice";
 import NewMeasureButton from "../components/NewMeasureButton";
@@ -18,10 +18,9 @@ export default function Home() {
       setSelected(i);
    };
 
-   // useEffect(() => {
-   //    debugger
-   //    dispatch(GetMeasures());
-   // }, [dispatch]);
+   useEffect(() => {
+      dispatch(GetMeasures());
+   }, [dispatch]);
 
    const handleDelete = async (i, e) => {
       dispatch(DeleteMeasure(selected));
@@ -43,6 +42,7 @@ export default function Home() {
                      <th>Date</th>
                      <th>Measured by</th>
                      <th>User ID</th>
+                     <th>Image name</th>
                      <th>Actions</th>
                   </tr>
                </thead>
@@ -54,6 +54,10 @@ export default function Home() {
                         <td>{d.date}</td>
                         <td>{d.measuredby}</td>
                         <td>{d.userId}</td>
+                        <td>
+                           {" "}
+                           {d.imageName == "" ? "NULL" : d.imageName}
+                        </td>
                         <td>
                            <button
                               className="btn btn-warning me-2"
