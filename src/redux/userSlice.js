@@ -36,7 +36,7 @@ export const userSlice = createSlice({
    extraReducers: (builder) => {
       // Add reducers for additional action types here, and handle loading state as needed
       builder.addCase(userLogin.fulfilled, (state, action) => {
-         const { name, token, username, email, image } = action.payload;
+         const { name, token, username, email, image } = action.payload.user;
          state.name = name;
          state.token = token;
          state.username = username;
