@@ -8,8 +8,7 @@ import {
 } from "../API/requests";
 
 export const initialState = {
-   measures: [
-   ],
+   measures: [],
 };
 
 // Measures
@@ -30,7 +29,7 @@ const PostMeasure = createAsyncThunk(
    "measures/postMeasure",
    async (measure, thunkAPI) => {
       try {
-      debugger
+         debugger;
          const response = await postMeasure(measure);
          return response;
       } catch (error) {
@@ -71,19 +70,18 @@ export const measuresSlice = createSlice({
       // Add reducers for additional action types here, and handle loading state as needed
       builder
          .addCase(GetMeasures.fulfilled, (state, action) => {
-            
             state.measures = action.payload;
          })
          .addCase(GetMeasures.rejected, (state, action) => {
             state.measures = [];
          })
          .addCase(PostMeasure.fulfilled, (state, action) => {
-            state.measures = [...state.measures, action.payload.InsertedData];
+            state.measures = [...state.measures, action.payload.data];
          })
          .addCase(PutMeasure.fulfilled, (state, action) => {
             const measures = state.measures;
             for (let i = 0; i < measures.length; i++) {
-               if (action.payload.id === measures[i].id) {
+               if (action.payload._id === measures[i]._id) {
                   measures[i].amount = action.payload.amount;
                   measures[i].date = action.payload.date;
                   measures[i].measuredby = action.payload.measuredby;
@@ -94,7 +92,7 @@ export const measuresSlice = createSlice({
          })
          .addCase(DeleteMeasure.fulfilled, (state, action) => {
             const measures = state.measures.filter(
-               (o) => o.id !== action.payload.deletedId
+               (o) => o._id !== action.payload.deletedId
             );
             state.measures = measures;
          });

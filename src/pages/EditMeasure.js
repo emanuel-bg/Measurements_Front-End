@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { PutMeasure } from "../redux/measuresSlice";
 import {
-   validateMeasureId,
    validateMeasureAmount,
    validateMeasureDate,
    validateMeasureMeasuredby,
@@ -12,10 +11,7 @@ import {
 
 function validate(measureData) {
    let errors = {};
-   if (!validateMeasureId(measureData.id)) {
-      errors.id = "Invalid measure ID";
-      //Only numbers available
-   }
+
    if (!validateMeasureAmount(measureData.amount)) {
       errors.amount = "Invalid measure amount";
       //Only numbers available
@@ -35,9 +31,10 @@ function validate(measureData) {
 
    return errors;
 }
+
 function objectById(array, id) {
    for (var i = 0; i < array.length; i++) {
-      if (array[i].id === id) {
+      if (array[i]._id === id) {
          return array[i];
       }
    }
@@ -46,6 +43,7 @@ function objectById(array, id) {
 export default function EditMeasure() {
    const params = useParams();
    const measures = useSelector((state) => state.measures);
+
    const measureDataInitialState = objectById(measures.measures, params.id);
    const [measureData, setmeasureData] = useState(measureDataInitialState);
    const [formError, setFormError] = useState({});
@@ -67,7 +65,7 @@ export default function EditMeasure() {
       setFormError(errors);
       const formOk = Object.keys(errors).length;
       if (!formOk) {
-          dispatch(PutMeasure(measureData));
+         dispatch(PutMeasure(measureData));
          navigate("/");
       }
    };
@@ -82,19 +80,6 @@ export default function EditMeasure() {
                   id="newMeasure"
                   onSubmit={handleNewMeasure}
                >
-                  <div className="form-group">
-                     <label>ID</label>
-                     <input
-                        type="text"
-                        value={measureData.id}
-                        className="form-control"
-                        id="idInput"
-                        name="id"
-                        placeholder="Enter ID"
-                        readOnly
-                     />
-                     {<span className="text-danger">{formError.id}</span>}
-                  </div>
                   <div className="form-group">
                      <label>Amount</label>
                      <input

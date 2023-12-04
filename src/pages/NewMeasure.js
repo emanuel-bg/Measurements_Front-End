@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { PostMeasure } from "../redux/measuresSlice";
 import {
-   validateMeasureId,
    validateMeasureAmount,
    validateMeasureDate,
    validateMeasureMeasuredby,
@@ -12,10 +11,6 @@ import {
 
 function validate(measureData) {
    let errors = {};
-   if (!validateMeasureId(measureData.id)) {
-      errors.id = "Invalid measure ID";
-      //Only numbers available
-   }
    if (!validateMeasureAmount(measureData.amount)) {
       errors.amount = "Invalid measure amount";
       //Only numbers available
@@ -38,12 +33,11 @@ function validate(measureData) {
 
 export default function NewMeasure() {
    const measureDataInitialState = {
-      id: "1",
       amount: "2",
       date: "12/12/2000",
       measuredby: "Ema",
       userId: "12",
-      image: {},
+      image: "",
    };
 
    const [measureData, setmeasureData] = useState(measureDataInitialState);
@@ -92,19 +86,6 @@ export default function NewMeasure() {
                   id="newMeasure"
                   onSubmit={handleNewMeasure}
                >
-                  <div className="form-group">
-                     <label>ID</label>
-                     <input
-                        value={measureData.id}
-                        type="text"
-                        className="form-control"
-                        id="idInput"
-                        name="id"
-                        placeholder="Enter ID"
-                        onChange={handleChange}
-                     />
-                     {<span className="text-danger">{formError.id}</span>}
-                  </div>
                   <div className="form-group">
                      <label>Amount</label>
                      <input

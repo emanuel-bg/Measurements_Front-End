@@ -42,33 +42,28 @@ export default function Home() {
                      <th>Date</th>
                      <th>Measured by</th>
                      <th>User ID</th>
-                     <th>Image name</th>
                      <th>Actions</th>
                   </tr>
                </thead>
                <tbody>
                   {measures.measures.map((d, i) => (
                      <tr key={i}>
-                        <td>{d.id}</td>
+                        <td>{d._id}</td>
                         <td>{d.amount}</td>
                         <td>{d.date}</td>
                         <td>{d.measuredby}</td>
                         <td>{d.userId}</td>
                         <td>
-                           {" "}
-                           {d.imageName == "" ? "NULL" : d.imageName}
-                        </td>
-                        <td>
                            <button
                               className="btn btn-warning me-2"
-                              onClick={() => handleEdit(d.id)}
+                              onClick={() => handleEdit(d._id)}
                            >
                               Edit
                            </button>
 
                            <button
                               className="btn btn-danger"
-                              onClick={() => handleShow(d.id)}
+                              onClick={() => handleShow(d._id)}
                            >
                               Delete
                            </button>

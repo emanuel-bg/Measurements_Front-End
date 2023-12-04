@@ -35,14 +35,18 @@ export const userSlice = createSlice({
    },
    extraReducers: (builder) => {
       // Add reducers for additional action types here, and handle loading state as needed
-      builder.addCase(userLogin.fulfilled, (state, action) => {
-         const { name, token, username, email, image } = action.payload.user;
-         state.name = name;
-         state.token = token;
-         state.username = username;
-         state.email = email;
-         state.image = image;
-      });
+      builder
+         .addCase(userLogin.fulfilled, (state, action) => {
+            const { name, token, username, email, image } = action.payload.data;
+            state.name = name;
+            state.token = token;
+            state.username = username;
+            state.email = email;
+            state.image = image;
+         })
+         .addCase(userLogin.rejected, (state, action) => {
+            console.log("No se pudo iniciar sesions");
+         });
    },
 });
 

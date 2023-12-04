@@ -82,9 +82,6 @@ function NoNull(w) {
    return true;
 }
 
-export function validateMeasureId(Id) {
-   return validateJustNumbers(Id) && NoSpacesAndNull(Id);
-}
 export function validateMeasureAmount(amount) {
    return validateJustNumbers(amount) && NoSpacesAndNull(amount);
 }
