@@ -2,39 +2,30 @@ import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { PutMeasure } from "../redux/measuresSlice";
+import getUnixTime from "date-fns/getUnixTime";
 import {
-   validateMeasureAmount,
-   validateMeasureDate,
-   validateMeasureMeasuredby,
-   validateMeasureUserId,
+   validateMeasureAmount
 } from "../utils/Validations";
+import { fromUnixTime } from "date-fns";
 
 function validate(measureData) {
    let errors = {};
-
    if (!validateMeasureAmount(measureData.amount)) {
       errors.amount = "Invalid measure amount";
       //Only numbers available
    }
-   if (!validateMeasureDate(measureData.date)) {
-      errors.date = "Invalid measure date";
-      //Only mm/dd/yyyy format
+   if (!measureData.date) {
+      errors.date = "Invalid date";
+      //Only numbers available
    }
-   if (!validateMeasureMeasuredby(measureData.measuredby)) {
-      errors.measuredby = "Invalid name for Measured By";
-      //Only letters
-   }
-   if (!validateMeasureUserId(measureData.userId)) {
-      errors.userId = "Invalid User ID";
-      //Only numbers and letters
-   }
+
 
    return errors;
 }
 
 function objectById(array, id) {
    for (var i = 0; i < array.length; i++) {
-      if (array[i]._id === id) {
+      if (array[i].id === id) {
          return array[i];
       }
    }
@@ -43,17 +34,23 @@ function objectById(array, id) {
 export default function EditMeasure() {
    const params = useParams();
    const measures = useSelector((state) => state.measures);
+   const user = useSelector((state) => state.user);
 
-   const measureDataInitialState = objectById(measures.measures, params.id);
+   var measureDataInitialState = objectById(measures.measures, params.id);
    const [measureData, setmeasureData] = useState(measureDataInitialState);
    const [formError, setFormError] = useState({});
 
    const handleChange = (e) => {
       let value = e.target.value;
       let name = e.target.name;
+
       setmeasureData((prevData) => {
-         return { ...prevData, [name]: value };
+         return {
+            ...prevData,
+            [name]: value,
+         };
       });
+      console.log(measureData);
    };
    const navigate = useNavigate();
    const dispatch = useDispatch();
@@ -65,6 +62,10 @@ export default function EditMeasure() {
       setFormError(errors);
       const formOk = Object.keys(errors).length;
       if (!formOk) {
+         measureData.userId = user.id;
+         measureData.measuredby = user.username;
+         measureData.date = getUnixTime(new Date(measureData.calendarDate));
+         measureData.updated_at = getUnixTime(new Date(Date.now()));
          dispatch(PutMeasure(measureData));
          navigate("/");
       }
@@ -96,8 +97,8 @@ export default function EditMeasure() {
                   <div className="form-group">
                      <label>Date</label>
                      <input
-                        type="date"
-                        value={measureData.date}
+                        type="datetime-local"
+                        value={measureData.calendarDate}
                         className="form-control"
                         id="dateInput"
                         name="date"
@@ -105,36 +106,6 @@ export default function EditMeasure() {
                         onChange={handleChange}
                      />
                      {<span className="text-danger">{formError.date}</span>}
-                  </div>
-                  <div className="form-group">
-                     <label>Measured By</label>
-                     <input
-                        type="text"
-                        value={measureData.measuredby}
-                        className="form-control"
-                        id="measuredByInput"
-                        name="measuredby"
-                        placeholder="Enter Measured By"
-                        onChange={handleChange}
-                     />
-                     {
-                        <span className="text-danger">
-                           {formError.measuredby}
-                        </span>
-                     }
-                  </div>
-                  <div className="form-group">
-                     <label>User ID</label>
-                     <input
-                        type="text"
-                        className="form-control"
-                        value={measureData.userId}
-                        id="userIdInput"
-                        name="userId"
-                        placeholder="Enter User ID"
-                        onChange={handleChange}
-                     />
-                     {<span className="text-danger">{formError.userId}</span>}
                   </div>
                   <button type="submit" className="btn btn-primary mt-2">
                      Submit

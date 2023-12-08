@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { PostMeasure } from "../redux/measuresSlice";
+import { useSelector } from "react-redux/es/hooks/useSelector";
 import {
    validateMeasureAmount,
    validateMeasureDate,
    validateMeasureMeasuredby,
    validateMeasureUserId,
 } from "../utils/Validations";
+import { getUnixTime } from "date-fns";
 
 function validate(measureData) {
    let errors = {};
@@ -15,28 +17,19 @@ function validate(measureData) {
       errors.amount = "Invalid measure amount";
       //Only numbers available
    }
-   if (!validateMeasureDate(measureData.date)) {
-      errors.date = "Invalid measure date";
-      //Only mm/dd/yyyy format
+   if (!validateMeasureDate(measureData.calendarDate)) {
+      errors.date = "Invalid date";
+      //Only numbers available
    }
-   if (!validateMeasureMeasuredby(measureData.measuredby)) {
-      errors.measuredby = "Invalid name for Measured By";
-      //Only letters
-   }
-   if (!validateMeasureUserId(measureData.userId)) {
-      errors.userId = "Invalid User ID";
-      //Only numbers and letters
-   }
-
    return errors;
 }
 
 export default function NewMeasure() {
    const measureDataInitialState = {
-      amount: "2",
-      date: "12/12/2000",
-      measuredby: "Ema",
-      userId: "12",
+      amount: "",
+      calendarDate: "",
+      measuredby: "",
+      userId: "",
       image: "",
    };
 
@@ -61,8 +54,11 @@ export default function NewMeasure() {
 
    const navigate = useNavigate();
    const dispatch = useDispatch();
+   const user = useSelector((state) => state.user);
 
    const handleNewMeasure = async (e) => {
+      console.log(user.currentUser);
+      console.log(user);
       e.preventDefault();
       setFormError({});
       const errors = validate(measureData);
@@ -70,7 +66,13 @@ export default function NewMeasure() {
       const formOk = Object.keys(errors).length;
       if (!formOk) {
          console.log(measureData);
+         measureData.userId = user.id;
+         measureData.measuredby = user.username;
+         measureData.date = getUnixTime(new Date(measureData.calendarDate));
+         measureData.created_at = getUnixTime(Date.now());
+         measureData.updated_at = getUnixTime(Date.now());
          dispatch(PostMeasure(measureData));
+         debugger;
          console.log("Se actualizo measures");
          navigate("/");
       }
@@ -103,47 +105,17 @@ export default function NewMeasure() {
                      <label>Date</label>
                      <input
                         value={measureData.date}
-                        type="date"
+                        type="datetime-local"
                         className="form-control"
                         id="dateInput"
-                        name="date"
+                        name="calendarDate"
                         placeholder="Select Date"
                         onChange={handleChange}
                      />
                      {<span className="text-danger">{formError.date}</span>}
                   </div>
                   <div className="form-group">
-                     <label>Measured By</label>
-                     <input
-                        value={measureData.measuredby}
-                        type="text"
-                        className="form-control"
-                        id="measuredByInput"
-                        name="measuredby"
-                        placeholder="Enter Measured By"
-                        onChange={handleChange}
-                     />
-                     {
-                        <span className="text-danger">
-                           {formError.measuredby}
-                        </span>
-                     }
-                  </div>
-                  <div className="form-group">
-                     <label>User ID</label>
-                     <input
-                        value={measureData.userId}
-                        type="text"
-                        className="form-control"
-                        id="userIdInput"
-                        name="userId"
-                        placeholder="Enter User ID"
-                        onChange={handleChange}
-                     />
-                     {<span className="text-danger">{formError.userId}</span>}
-                  </div>
-                  <div className="form-group">
-                     <label>Image</label>
+                     <label>Image <span className="text-info">(optional)</span></label>
                      <input
                         type="file"
                         className="form-control"
@@ -151,7 +123,6 @@ export default function NewMeasure() {
                         name="image"
                         onChange={handleImage}
                      />
-                     {<span className="text-danger">{formError.userId}</span>}
                   </div>
 
                   <button type="submit" className="btn btn-primary mt-2">

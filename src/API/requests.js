@@ -28,7 +28,10 @@ export async function putMeasure(measure) {
    formdata.append("measuredby", measure.measuredby);
    formdata.append("userId", measure.userId);
    formdata.append("imageName", "");
-   const response = await instance.put(`/measurements/${measure.id}`, formdata);
+   const response = await instance.put(
+      `/measurements/${measure._id}`,
+      formdata
+   );
    return response.data;
 }
 export async function deleteMeasure(measureId) {

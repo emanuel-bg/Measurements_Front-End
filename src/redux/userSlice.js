@@ -13,6 +13,7 @@ const userLogin = createAsyncThunk("user/login", async (userData, thunkAPI) => {
 });
 
 export const initialState = {
+   id: "",
    name: "",
    token: "",
    username: "",
@@ -21,11 +22,12 @@ export const initialState = {
 };
 
 export const userSlice = createSlice({
-   name: "user",
+   name: "currentUser",
    initialState,
    reducers: {
       addUser: (state, action) => {
-         const { name, token, username, email, image } = action.payload;
+         const { id, name, token, username, email, image } = action.payload;
+         state.id = id;
          state.name = name;
          state.token = token;
          state.username = username;
@@ -37,7 +39,9 @@ export const userSlice = createSlice({
       // Add reducers for additional action types here, and handle loading state as needed
       builder
          .addCase(userLogin.fulfilled, (state, action) => {
-            const { name, token, username, email, image } = action.payload.data;
+            const { id, name, token, username, email, image } =
+               action.payload.data;
+            state.id = id;
             state.name = name;
             state.token = token;
             state.username = username;

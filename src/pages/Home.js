@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 import { GetMeasures } from "../redux/measuresSlice";
 import NewMeasureButton from "../components/NewMeasureButton";
 import { Modal, Button } from "react-bootstrap";
 import { DeleteMeasure } from "../redux/measuresSlice";
 import { useNavigate } from "react-router-dom";
+import format from "date-fns/format";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import { utcToZonedTime } from "date-fns-tz";
 export default function Home() {
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const measures = useSelector((state) => state.measures);
+   const user = useSelector((state) => state.user);
+
    const [show, setShow] = useState(false);
    const [selected, setSelected] = useState("");
    const handleClose = () => setShow(false);
@@ -37,35 +43,45 @@ export default function Home() {
             <table className="table table-dark">
                <thead>
                   <tr>
-                     <th>ID</th>
                      <th>Amount</th>
                      <th>Date</th>
                      <th>Measured by</th>
-                     <th>User ID</th>
+                     <th>Created at</th>
+                     <th>Updated at</th>
                      <th>Actions</th>
                   </tr>
                </thead>
                <tbody>
                   {measures.measures.map((d, i) => (
                      <tr key={i}>
-                        <td>{d._id}</td>
                         <td>{d.amount}</td>
-                        <td>{d.date}</td>
+                        <td>
+                           {d.date
+                              ? format(
+                                   utcToZonedTime(
+                                      d.date * 1000,
+                                      "America/Costa_Rica"
+                                   ),
+                                   "dd/MM/yyyy hh:mm:ss a"
+                                )
+                              : "Fecha desconocida"}
+                        </td>
                         <td>{d.measuredby}</td>
-                        <td>{d.userId}</td>
+                        <td>Valor de created_at</td>
+                        <td>Valor de updated_at</td>
                         <td>
                            <button
                               className="btn btn-warning me-2"
-                              onClick={() => handleEdit(d._id)}
+                              onClick={() => handleEdit(d.id)}
                            >
-                              Edit
+                              <i className="bi bi-pencil-square"></i>
                            </button>
 
                            <button
                               className="btn btn-danger"
-                              onClick={() => handleShow(d._id)}
+                              onClick={() => handleShow(d.id)}
                            >
-                              Delete
+                              <i className="bi bi-trash3"></i>
                            </button>
                         </td>
                      </tr>

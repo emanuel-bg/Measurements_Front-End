@@ -29,7 +29,6 @@ const PostMeasure = createAsyncThunk(
    "measures/postMeasure",
    async (measure, thunkAPI) => {
       try {
-         debugger;
          const response = await postMeasure(measure);
          return response;
       } catch (error) {
@@ -81,7 +80,7 @@ export const measuresSlice = createSlice({
          .addCase(PutMeasure.fulfilled, (state, action) => {
             const measures = state.measures;
             for (let i = 0; i < measures.length; i++) {
-               if (action.payload._id === measures[i]._id) {
+               if (action.payload.id === measures[i].id) {
                   measures[i].amount = action.payload.amount;
                   measures[i].date = action.payload.date;
                   measures[i].measuredby = action.payload.measuredby;
@@ -92,7 +91,7 @@ export const measuresSlice = createSlice({
          })
          .addCase(DeleteMeasure.fulfilled, (state, action) => {
             const measures = state.measures.filter(
-               (o) => o._id !== action.payload.deletedId
+               (o) => o.id !== action.payload.deletedId.toString()
             );
             state.measures = measures;
          });
