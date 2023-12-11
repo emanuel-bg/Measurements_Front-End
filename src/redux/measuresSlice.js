@@ -91,7 +91,7 @@ export const measuresSlice = createSlice({
          })
          .addCase(DeleteMeasure.fulfilled, (state, action) => {
             const measures = state.measures.filter(
-               (o) => o.id !== action.payload.deletedId.toString()
+               (o) => o.id.toString() !== action.payload.deletedId.toString()
             );
             state.measures = measures;
          });

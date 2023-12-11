@@ -72,7 +72,6 @@ export default function NewMeasure() {
          measureData.created_at = getUnixTime(Date.now());
          measureData.updated_at = getUnixTime(Date.now());
          dispatch(PostMeasure(measureData));
-         debugger;
          console.log("Se actualizo measures");
          navigate("/");
       }
@@ -115,7 +114,9 @@ export default function NewMeasure() {
                      {<span className="text-danger">{formError.date}</span>}
                   </div>
                   <div className="form-group">
-                     <label>Image <span className="text-info">(optional)</span></label>
+                     <label>
+                        Image <span className="text-info">(optional)</span>
+                     </label>
                      <input
                         type="file"
                         className="form-control"

@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import format from "date-fns/format";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { utcToZonedTime } from "date-fns-tz";
+import SearchMenu from "../components/Auth/SearchMenu";
 export default function Home() {
    const dispatch = useDispatch();
    const navigate = useNavigate();
@@ -37,9 +38,9 @@ export default function Home() {
    };
    return (
       <div className="bg-dark vh-100">
+         <SearchMenu />
          <div className="d-flex flex-column m-4">
             <NewMeasureButton />
-
             <table className="table table-dark">
                <thead>
                   <tr>

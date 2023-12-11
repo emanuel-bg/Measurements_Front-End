@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userLogin } from "../../redux/userSlice";
 import { validateEmail, validatePassword } from "../../utils/Validations";
+import { useSelector } from "react-redux";
 
 // import axios from "axios";
 function validate(userData) {
@@ -21,10 +22,11 @@ function validate(userData) {
 function UserLogin() {
    const navigate = useNavigate();
 
-useEffect(() => {
-navigate('/')
-}, [navigate])
+   useEffect(() => {
+      navigate("/");
+   }, [navigate]);
 
+   const user = useSelector((state) => state.user);
 
    const userDataInitialState = {
       email: "",
@@ -90,7 +92,7 @@ navigate('/')
                      />
                      {
                         <span className="text-danger">
-                           {formError.passwordText}
+                           {user.userLoginError}
                         </span>
                      }
                   </div>

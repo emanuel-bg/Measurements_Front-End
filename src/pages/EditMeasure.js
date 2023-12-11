@@ -3,22 +3,20 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { PutMeasure } from "../redux/measuresSlice";
 import getUnixTime from "date-fns/getUnixTime";
-import {
-   validateMeasureAmount
-} from "../utils/Validations";
-import { fromUnixTime } from "date-fns";
+import { validateMeasureAmount } from "../utils/Validations";
+import format from "date-fns-tz/format";
+import utcToZonedTime from "date-fns-tz/utcToZonedTime";
 
 function validate(measureData) {
    let errors = {};
-   if (!validateMeasureAmount(measureData.amount)) {
+   if (!validateMeasureAmount(measureData.amount.toString())) {
       errors.amount = "Invalid measure amount";
       //Only numbers available
    }
-   if (!measureData.date) {
+   if (!measureData.calendarDate) {
       errors.date = "Invalid date";
       //Only numbers available
    }
-
 
    return errors;
 }
@@ -26,7 +24,8 @@ function validate(measureData) {
 function objectById(array, id) {
    for (var i = 0; i < array.length; i++) {
       if (array[i].id === id) {
-         return array[i];
+         var newObj = Object.assign({}, array[i]);
+         return newObj;
       }
    }
 }
@@ -37,6 +36,15 @@ export default function EditMeasure() {
    const user = useSelector((state) => state.user);
 
    var measureDataInitialState = objectById(measures.measures, params.id);
+   const date = new Date(measureDataInitialState.date * 1000);
+   const year = date.getFullYear();
+   const month = String(date.getMonth() + 1).padStart(2, "0");
+   const day = String(date.getDate()).padStart(2, "0");
+   const hours = String(date.getHours()).padStart(2, "0");
+   const minutes = String(date.getMinutes()).padStart(2, "0");
+   const formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+   measureDataInitialState.calendarDate = formattedDateTime;
+
    const [measureData, setmeasureData] = useState(measureDataInitialState);
    const [formError, setFormError] = useState({});
 
@@ -101,7 +109,7 @@ export default function EditMeasure() {
                         value={measureData.calendarDate}
                         className="form-control"
                         id="dateInput"
-                        name="date"
+                        name="calendarDate"
                         placeholder="Select Date"
                         onChange={handleChange}
                      />

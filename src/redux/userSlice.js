@@ -5,10 +5,14 @@ import { Login } from "./../API/requests";
 const userLogin = createAsyncThunk("user/login", async (userData, thunkAPI) => {
    try {
       const user = await Login(userData);
+
       return user;
    } catch (error) {
-      console.error("Error de inicio de sesión:", error.message);
-      throw error;
+      if (error.response.status === 422) {
+         throw new Error(error.response.data.errors.email[0]);
+      } else {
+         throw new Error("Server error");
+      }
    }
 });
 
@@ -19,6 +23,7 @@ export const initialState = {
    username: "",
    email: "",
    image: "",
+   userLoginError: " ",
 };
 
 export const userSlice = createSlice({
@@ -49,7 +54,8 @@ export const userSlice = createSlice({
             state.image = image;
          })
          .addCase(userLogin.rejected, (state, action) => {
-            console.log("No se pudo iniciar sesions");
+            state.userLoginError = "";
+            state.userLoginError = action.error.message;
          });
    },
 });
