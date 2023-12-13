@@ -5,7 +5,7 @@ import { Login } from "./../API/requests";
 const userLogin = createAsyncThunk("user/login", async (userData, thunkAPI) => {
    try {
       const user = await Login(userData);
-
+//aqui configurar axios
       return user;
    } catch (error) {
       if (error.response.status === 422) {

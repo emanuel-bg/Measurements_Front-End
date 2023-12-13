@@ -5,6 +5,7 @@ import {
    postMeasure,
    deleteMeasure,
    putMeasure,
+   searchMeasures,
 } from "../API/requests";
 
 export const initialState = {
@@ -61,6 +62,21 @@ const DeleteMeasure = createAsyncThunk(
       }
    }
 );
+
+export const SearchMeasures = createAsyncThunk(
+   "measures/searchMeasures",
+   async (search, thunkAPI) => {
+      try {
+         
+         const response = await searchMeasures(search);
+         return response.data;
+      } catch (error) {
+         console.error("Error getting the measures:", error.message);
+         throw error;
+      }
+   }
+);
+
 export const measuresSlice = createSlice({
    name: "measures",
    initialState,
@@ -85,6 +101,7 @@ export const measuresSlice = createSlice({
                   measures[i].date = action.payload.date;
                   measures[i].measuredby = action.payload.measuredby;
                   measures[i].userId = action.payload.userId;
+                  measures[i].updated_at = action.payload.updated_at;
                }
             }
             state.measures = measures;
@@ -94,10 +111,15 @@ export const measuresSlice = createSlice({
                (o) => o.id.toString() !== action.payload.deletedId.toString()
             );
             state.measures = measures;
+         })
+         .addCase(SearchMeasures.fulfilled, (state, action) => {
+            state.measures = action.payload;
+         })
+         .addCase(SearchMeasures.rejected, (state, action) => {
+            state.measures = [];
          });
    },
 });
 
 export default measuresSlice.reducer;
 export { GetMeasures, PostMeasure, DeleteMeasure, PutMeasure };
-//export const { } = measuresSlice.actions;

@@ -63,13 +63,29 @@ export default function Home() {
                                       d.date * 1000,
                                       "America/Costa_Rica"
                                    ),
-                                   "dd/MM/yyyy hh:mm:ss a"
+                                   "dd/MM/yyyy hh:mm a"
                                 )
                               : "Fecha desconocida"}
                         </td>
                         <td>{d.measuredby}</td>
-                        <td>Valor de created_at</td>
-                        <td>Valor de updated_at</td>
+                        <td>{d.created_at
+                              ? format(
+                                   utcToZonedTime(
+                                      +d.created_at *1000,
+                                      "America/Costa_Rica"
+                                   ),
+                                   "dd/MM/yyyy hh:mm a"
+                                ).toString()
+                              : "Fecha desconocida"}</td>
+                        <td>{d.updated_at
+                              ? format(
+                                   utcToZonedTime(
+                                      +d.updated_at*1000,
+                                      "America/Costa_Rica"
+                                   ),
+                                   "dd/MM/yyyy hh:mm a"
+                                ).toString()
+                              : "Fecha desconocida"}</td>
                         <td>
                            <button
                               className="btn btn-warning me-2"

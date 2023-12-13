@@ -44,7 +44,8 @@ export function validatePassword(password) {
    }
    return tieneMayuscula && tieneMinuscula && tieneDigito && tieneEspecial;
 }
-function validateJustNumbers(n) {
+export function validateJustNumbers(n) {
+   if(n.length===0){return false}
    for (let i = 0; i < n.length; i++) {
       var character = n[i];
       if (isNaN(parseInt(character))) {

@@ -69,8 +69,6 @@ export default function NewMeasure() {
          measureData.userId = user.id;
          measureData.measuredby = user.username;
          measureData.date = getUnixTime(new Date(measureData.calendarDate));
-         measureData.created_at = getUnixTime(Date.now());
-         measureData.updated_at = getUnixTime(Date.now());
          dispatch(PostMeasure(measureData));
          console.log("Se actualizo measures");
          navigate("/");
