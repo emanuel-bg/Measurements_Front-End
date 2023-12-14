@@ -52,6 +52,7 @@ export const userSlice = createSlice({
             state.username = username;
             state.email = email;
             state.image = image;
+            localStorage.setItem("token",token)
          })
          .addCase(userLogin.rejected, (state, action) => {
             state.userLoginError = "";
