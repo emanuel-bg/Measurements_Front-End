@@ -26,6 +26,7 @@ function UserLogin() {
       navigate("/");
    }, [navigate]);
 
+
    const user = useSelector((state) => state.user);
 
    const userDataInitialState = {
@@ -45,6 +46,7 @@ function UserLogin() {
    const dispatch = useDispatch();
 
    const handleLogin = async (e) => {
+      debugger
       e.preventDefault();
       setFormError({});
       const errors = validate(userData);
@@ -52,6 +54,7 @@ function UserLogin() {
       setFormError(errors);
       const formOk = Object.keys(errors).length;
       if (!formOk) {
+
          dispatch(userLogin(userData));
          navigate("/");
       }
@@ -90,11 +93,13 @@ function UserLogin() {
                         placeholder="Password"
                         onChange={handleChange}
                      />
-                     {
+                      <span className="text-danger">
+                           {formError.passwordText}
+                        </span>
                         <span className="text-danger">
                            {user.userLoginError}
                         </span>
-                     }
+                     
                   </div>
                   <button type="submit" className="btn btn-primary mt-2">
                      Sign in

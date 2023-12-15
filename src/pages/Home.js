@@ -29,6 +29,8 @@ export default function Home() {
       dispatch(GetMeasures());
    }, [dispatch]);
 
+
+
    const handleDelete = async (i, e) => {
       dispatch(DeleteMeasure(selected));
       handleClose();

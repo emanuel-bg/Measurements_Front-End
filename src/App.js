@@ -13,7 +13,7 @@ function App() {
       <>
          <BrowserRouter>
             <div className="bg-dark W-100">
-               {!user.name ? <UserLogin /> : <LoggedUser />}
+               {!user.token ? <UserLogin /> : <LoggedUser />}
             </div>
          </BrowserRouter>
       </>

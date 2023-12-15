@@ -1,7 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { addUser } from "../../redux/userSlice";
-import { initialState } from "../../redux/userSlice";
+import { Logout as LogoutAction } from "../../redux/userSlice";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -11,7 +10,7 @@ function Logout() {
    const navigate = useNavigate();
 
    const UserLogout = () => {
-      dispatch(addUser(initialState));
+      dispatch(LogoutAction());
       navigate("/");
    };
 

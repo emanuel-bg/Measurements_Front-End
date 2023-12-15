@@ -1,13 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import {
-   getMeasures,
-   postMeasure,
-   deleteMeasure,
-   putMeasure,
-   searchMeasures,
-} from "../API/requests";
-
+import requests from "../API/requests";
 export const initialState = {
    measures: [],
 };
@@ -17,7 +10,7 @@ const GetMeasures = createAsyncThunk(
    "measures/getMeasures",
    async (measures, thunkAPI) => {
       try {
-         const response = await getMeasures();
+         const response = await requests["getMeasures"]();
          return response.data;
       } catch (error) {
          console.error("Error getting the measures:", error.message);
@@ -30,7 +23,7 @@ const PostMeasure = createAsyncThunk(
    "measures/postMeasure",
    async (measure, thunkAPI) => {
       try {
-         const response = await postMeasure(measure);
+         const response = await requests["postMeasure"](measure);
          return response;
       } catch (error) {
          console.error("Error creating the measure:", error.message);
@@ -43,7 +36,7 @@ const PutMeasure = createAsyncThunk(
    "measures/putMeasure",
    async (measure, thunkAPI) => {
       try {
-         const response = await putMeasure(measure);
+         const response = await requests["putMeasure"](measure);
          return response;
       } catch (error) {
          throw error;
@@ -55,7 +48,7 @@ const DeleteMeasure = createAsyncThunk(
    "measures/deleteMeasure",
    async (measureId, thunkAPI) => {
       try {
-         const response = await deleteMeasure(measureId);
+         const response = await requests["deleteMeasure"](measureId);
          return response;
       } catch (error) {
          throw error;
@@ -68,7 +61,7 @@ export const SearchMeasures = createAsyncThunk(
    async (search, thunkAPI) => {
       try {
          
-         const response = await searchMeasures(search);
+         const response = await requests["search"](search);
          return response.data;
       } catch (error) {
          console.error("Error getting the measures:", error.message);

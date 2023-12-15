@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { PutMeasure } from "../redux/measuresSlice";
+import { PutMeasure, GetMeasures } from "../redux/measuresSlice";
 import getUnixTime from "date-fns/getUnixTime";
 import { validateMeasureAmount } from "../utils/Validations";
-import format from "date-fns-tz/format";
-import utcToZonedTime from "date-fns-tz/utcToZonedTime";
+import { useEffect } from "react";
 
 function validate(measureData) {
    let errors = {};
@@ -34,24 +33,32 @@ export default function EditMeasure() {
    const params = useParams();
    const measures = useSelector((state) => state.measures);
    const user = useSelector((state) => state.user);
+   const navigate = useNavigate();
 
-   var measureDataInitialState = objectById(measures.measures, params.id);
-   const date = new Date(measureDataInitialState.date * 1000);
-   const year = date.getFullYear();
-   const month = String(date.getMonth() + 1).padStart(2, "0");
-   const day = String(date.getDate()).padStart(2, "0");
-   const hours = String(date.getHours()).padStart(2, "0");
-   const minutes = String(date.getMinutes()).padStart(2, "0");
-   const formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
-   measureDataInitialState.calendarDate = formattedDateTime;
-
+   const measureDataInitialState = { amount: "", calendarDate: "" };
    const [measureData, setmeasureData] = useState(measureDataInitialState);
    const [formError, setFormError] = useState({});
+
+   useEffect(() => {
+      if (!measures.measures || !measures.measures.length) {
+         navigate("/");
+      } else {
+         let measureDataInitialState = objectById(measures.measures, params.id);
+         const date = new Date(measureDataInitialState.date * 1000);
+         const year = date.getFullYear();
+         const month = String(date.getMonth() + 1).padStart(2, "0");
+         const day = String(date.getDate()).padStart(2, "0");
+         const hours = String(date.getHours()).padStart(2, "0");
+         const minutes = String(date.getMinutes()).padStart(2, "0");
+         const formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+         measureDataInitialState.calendarDate = formattedDateTime;
+         setmeasureData(measureDataInitialState);
+      }
+   }, []);
 
    const handleChange = (e) => {
       let value = e.target.value;
       let name = e.target.name;
-
       setmeasureData((prevData) => {
          return {
             ...prevData,
@@ -60,7 +67,6 @@ export default function EditMeasure() {
       });
       console.log(measureData);
    };
-   const navigate = useNavigate();
    const dispatch = useDispatch();
 
    const handleNewMeasure = async (e) => {
