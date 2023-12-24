@@ -11,36 +11,88 @@ export function validatePassword(password) {
    var tieneMinuscula = false;
    var tieneDigito = false;
    var tieneEspecial = false;
-   var caracteresEspeciales = "$@$!%*?&";
+   var characteresEspeciales = "$@$!%*?&";
 
    // Comprobar la longitud de la contraseña
    if (password.length < minLongitud || password.length > maxLongitud) {
-      return false;
+      return true;
    }
 
    // Recorrer cada carácter de la contraseña
    for (var i = 0; i < password.length; i++) {
-      var caracter = password[i];
+      var character = password[i];
 
       // Comprobar si es una letra mayúscula
-      if (caracter >= "A" && caracter <= "Z") {
+      if (character >= "A" && character <= "Z") {
          tieneMayuscula = true;
       }
 
       // Comprobar si es una letra minúscula
-      if (caracter >= "a" && caracter <= "z") {
+      if (character >= "a" && character <= "z") {
          tieneMinuscula = true;
       }
 
       // Comprobar si es un dígito
-      if (caracter >= "0" && caracter <= "9") {
+      if (character >= "0" && character <= "9") {
          tieneDigito = true;
       }
 
       // Comprobar si es un carácter especial
-      if (caracteresEspeciales.indexOf(caracter) !== -1) {
+      if (characteresEspeciales.indexOf(character) !== -1) {
          tieneEspecial = true;
       }
    }
    return tieneMayuscula && tieneMinuscula && tieneDigito && tieneEspecial;
+}
+export function validateJustNumbers(n) {
+   if(n.length===0){return false}
+   for (let i = 0; i < n.length; i++) {
+      var character = n[i];
+      if (isNaN(parseInt(character))) {
+         return false;
+      }
+   }
+   return true;
+}
+function validateLetters(w) {
+   for (let i = 0; i < w.length; i++) {
+      const character = w[i];
+      if (
+         character !== " " &&
+         (character < "A" ||
+            (character > "Z" && character < "a") ||
+            character > "z")
+      ) {
+         return false;
+      }
+   }
+   return true;
+}
+
+function NoSpacesAndNull(w) {
+   if (w.trim() === "" || w.includes(" ")) {
+      return false;
+   }
+   return true;
+}
+
+function NoNull(w) {
+   if (w.trim() === "") {
+      return false;
+   }
+   return true;
+}
+
+export function validateMeasureAmount(amount) {
+   return validateJustNumbers(amount) && NoSpacesAndNull(amount);
+}
+export function validateMeasureDate(date) {
+   return NoSpacesAndNull(date);
+}
+export function validateMeasureMeasuredby(measuredby) {
+   return validateLetters(measuredby) && NoNull(measuredby);
+}
+
+export function validateMeasureUserId(userId) {
+   return validateJustNumbers(userId) && NoSpacesAndNull(userId);
 }
