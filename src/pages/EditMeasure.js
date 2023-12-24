@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { PutMeasure } from "../redux/measuresSlice";
+import { PutMeasure, GetMeasure, GetMeasures } from "../redux/measuresSlice";
 import getUnixTime from "date-fns/getUnixTime";
 import { validateMeasureAmount } from "../utils/Validations";
-import format from "date-fns-tz/format";
-import utcToZonedTime from "date-fns-tz/utcToZonedTime";
+import { useEffect } from "react";
 
 function validate(measureData) {
    let errors = {};
@@ -21,37 +20,29 @@ function validate(measureData) {
    return errors;
 }
 
-function objectById(array, id) {
-   for (var i = 0; i < array.length; i++) {
-      if (array[i].id === id) {
-         var newObj = Object.assign({}, array[i]);
-         return newObj;
-      }
-   }
-}
-
 export default function EditMeasure() {
    const params = useParams();
    const measures = useSelector((state) => state.measures);
-   const user = useSelector((state) => state.user);
+   const navigate = useNavigate();
 
-   var measureDataInitialState = objectById(measures.measures, params.id);
-   const date = new Date(measureDataInitialState.date * 1000);
-   const year = date.getFullYear();
-   const month = String(date.getMonth() + 1).padStart(2, "0");
-   const day = String(date.getDate()).padStart(2, "0");
-   const hours = String(date.getHours()).padStart(2, "0");
-   const minutes = String(date.getMinutes()).padStart(2, "0");
-   const formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
-   measureDataInitialState.calendarDate = formattedDateTime;
-
+   const measureDataInitialState = { amount: "", calendarDate: "" };
    const [measureData, setmeasureData] = useState(measureDataInitialState);
    const [formError, setFormError] = useState({});
+   const dispatch = useDispatch();
+
+   useEffect(() => {
+      dispatch(GetMeasure(params.id));
+   }, [dispatch, params.id]);
+
+   useEffect(() => {
+      if (measures.selectedMeasure) {
+         setmeasureData(measures.selectedMeasure);
+      }
+   }, [measures.selectedMeasure]);
 
    const handleChange = (e) => {
       let value = e.target.value;
       let name = e.target.name;
-
       setmeasureData((prevData) => {
          return {
             ...prevData,
@@ -60,20 +51,15 @@ export default function EditMeasure() {
       });
       console.log(measureData);
    };
-   const navigate = useNavigate();
-   const dispatch = useDispatch();
 
-   const handleNewMeasure = async (e) => {
+   const handlePutMeasure = async (e) => {
       e.preventDefault();
       setFormError({});
       const errors = validate(measureData);
       setFormError(errors);
       const formOk = Object.keys(errors).length;
       if (!formOk) {
-         measureData.userId = user.id;
-         measureData.measuredby = user.username;
          measureData.date = getUnixTime(new Date(measureData.calendarDate));
-         measureData.updated_at = getUnixTime(new Date(Date.now()));
          dispatch(PutMeasure(measureData));
          navigate("/");
       }
@@ -87,7 +73,7 @@ export default function EditMeasure() {
                <form
                   autoComplete="false"
                   id="newMeasure"
-                  onSubmit={handleNewMeasure}
+                  onSubmit={handlePutMeasure}
                >
                   <div className="form-group">
                      <label>Amount</label>

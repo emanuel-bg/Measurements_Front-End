@@ -29,12 +29,18 @@ export default function Home() {
       dispatch(GetMeasures());
    }, [dispatch]);
 
+
+
    const handleDelete = async (i, e) => {
       dispatch(DeleteMeasure(selected));
       handleClose();
    };
    const handleEdit = (i) => {
       navigate("/measure/" + i);
+   };
+
+   const handleView = (i) => {
+      navigate("/measure/view/" + i);
    };
    return (
       <div className="bg-dark vh-100">
@@ -87,6 +93,12 @@ export default function Home() {
                                 ).toString()
                               : "Fecha desconocida"}</td>
                         <td>
+                        <button
+                              className="btn btn-secondary me-2"
+                              onClick={() => handleView(d.id)}
+                           >
+                              <i className="bi bi-eye-fill"></i>
+                           </button>
                            <button
                               className="btn btn-warning me-2"
                               onClick={() => handleEdit(d.id)}

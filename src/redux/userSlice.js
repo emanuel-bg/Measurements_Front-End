@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { Login } from "./../API/requests";
+import requests from "./../API/requests";
 
 const userLogin = createAsyncThunk("user/login", async (userData, thunkAPI) => {
    try {
-      const user = await Login(userData);
-//aqui configurar axios
+      const user = await requests["Login"](userData);
+      //aqui configurar axios
       return user;
    } catch (error) {
       if (error.response.status === 422) {
@@ -16,10 +16,34 @@ const userLogin = createAsyncThunk("user/login", async (userData, thunkAPI) => {
    }
 });
 
+export const Logout = createAsyncThunk("user/logout", async (userData, thunkAPI) => {
+   try {
+      const user = await requests["Logout"]();
+      return user;
+   } catch (error) {
+         throw new Error("Server error");
+   }
+});
+
+export const verifySession = createAsyncThunk(
+   "user/verifySession",
+   async (userData, thunkAPI) => {
+      try {
+         const user = await requests["verifySession"]();
+         return user;
+      } catch (error) {
+         if (error.response.status === 422) {
+            throw new Error(error.response.data.errors.email[0]);
+         } else {
+            throw new Error("Server error");
+         }
+      }
+   }
+);
 export const initialState = {
    id: "",
    name: "",
-   token: "",
+   token: localStorage.getItem("token"),
    username: "",
    email: "",
    image: "",
@@ -52,11 +76,39 @@ export const userSlice = createSlice({
             state.username = username;
             state.email = email;
             state.image = image;
+            localStorage.setItem("token", token);
          })
          .addCase(userLogin.rejected, (state, action) => {
             state.userLoginError = "";
             state.userLoginError = action.error.message;
-         });
+         })
+         .addCase(verifySession.fulfilled, (state, action) => {
+            const { id, name, username, email, image } =
+            action.payload.data;
+            state.id = id;
+            state.name = name
+            state.username = username;
+            state.email = email;
+            state.image = image;
+         }).
+         addCase(verifySession.rejected, (state, action) => {
+           state.token=""
+           state.id = "";
+            state.name = ""
+            state.username = "";
+            state.email = "";
+            state.image = "";
+         }).addCase(Logout.fulfilled, (state, action) => {
+             state.token=""
+             state.id = "";
+             state.name = ""
+             state.username = "";
+             state.email = "";
+             state.image = "";
+             localStorage.clear()
+         }).addCase(Logout.rejected, (state, action) => {
+            state.token=""
+         });;
    },
 });
 

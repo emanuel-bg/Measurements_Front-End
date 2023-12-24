@@ -1,23 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import {
-   getMeasures,
-   postMeasure,
-   deleteMeasure,
-   putMeasure,
-   searchMeasures,
-} from "../API/requests";
-
+import requests from "../API/requests";
 export const initialState = {
    measures: [],
+   selectedMeasure: {},
 };
 
 // Measures
-const GetMeasures = createAsyncThunk(
+export const GetMeasures = createAsyncThunk(
    "measures/getMeasures",
    async (measures, thunkAPI) => {
       try {
-         const response = await getMeasures();
+         const response = await requests["getMeasures"]();
          return response.data;
       } catch (error) {
          console.error("Error getting the measures:", error.message);
@@ -25,12 +19,23 @@ const GetMeasures = createAsyncThunk(
       }
    }
 );
+export const GetMeasure = createAsyncThunk(
+   "measures/getMeasure",
+   async (measureId, thunkAPI) => {
+      try {
+         const response = await requests["getMeasure"](measureId);
+         return response;
+      } catch (error) {
+         throw error;
+      }
+   }
+);
 
-const PostMeasure = createAsyncThunk(
+export const PostMeasure = createAsyncThunk(
    "measures/postMeasure",
    async (measure, thunkAPI) => {
       try {
-         const response = await postMeasure(measure);
+         const response = await requests["postMeasure"](measure);
          return response;
       } catch (error) {
          console.error("Error creating the measure:", error.message);
@@ -39,11 +44,11 @@ const PostMeasure = createAsyncThunk(
    }
 );
 
-const PutMeasure = createAsyncThunk(
+export const PutMeasure = createAsyncThunk(
    "measures/putMeasure",
    async (measure, thunkAPI) => {
       try {
-         const response = await putMeasure(measure);
+         const response = await requests["putMeasure"](measure);
          return response;
       } catch (error) {
          throw error;
@@ -51,11 +56,11 @@ const PutMeasure = createAsyncThunk(
    }
 );
 
-const DeleteMeasure = createAsyncThunk(
+export const DeleteMeasure = createAsyncThunk(
    "measures/deleteMeasure",
    async (measureId, thunkAPI) => {
       try {
-         const response = await deleteMeasure(measureId);
+         const response = await requests["deleteMeasure"](measureId);
          return response;
       } catch (error) {
          throw error;
@@ -67,8 +72,7 @@ export const SearchMeasures = createAsyncThunk(
    "measures/searchMeasures",
    async (search, thunkAPI) => {
       try {
-         
-         const response = await searchMeasures(search);
+         const response = await requests["search"](search);
          return response.data;
       } catch (error) {
          console.error("Error getting the measures:", error.message);
@@ -90,6 +94,22 @@ export const measuresSlice = createSlice({
          .addCase(GetMeasures.rejected, (state, action) => {
             state.measures = [];
          })
+         .addCase(GetMeasure.fulfilled, (state, action) => {
+            debugger;
+            let measureData = action.payload.data;
+            const date = new Date(measureData.date * 1000);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, "0");
+            const day = String(date.getDate()).padStart(2, "0");
+            const hours = String(date.getHours()).padStart(2, "0");
+            const minutes = String(date.getMinutes()).padStart(2, "0");
+            const formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+            measureData.calendarDate = formattedDateTime;
+            state.selectedMeasure = measureData;
+         })
+         .addCase(GetMeasure.rejected, (state, action) => {
+            state.selectedMeasure = {};
+         })
          .addCase(PostMeasure.fulfilled, (state, action) => {
             state.measures = [...state.measures, action.payload.data];
          })
@@ -106,9 +126,13 @@ export const measuresSlice = createSlice({
             }
             state.measures = measures;
          })
+         .addCase(PutMeasure.rejected, (state, action) => {
+            state.measures = [];
+         })
          .addCase(DeleteMeasure.fulfilled, (state, action) => {
             const measures = state.measures.filter(
-               (o) => o.id.toString() !== action.payload.deletedId.toString()
+               (o) =>
+                  o.id.toString() !== action.payload.data.deletedId.toString()
             );
             state.measures = measures;
          })
@@ -122,4 +146,3 @@ export const measuresSlice = createSlice({
 });
 
 export default measuresSlice.reducer;
-export { GetMeasures, PostMeasure, DeleteMeasure, PutMeasure };
