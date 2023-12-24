@@ -8,12 +8,12 @@ export const instance = axios.create({
 //Acceso redux obtener token desde redux
 instance.interceptors.request.use(
    (config) => {
-     const token = localStorage.getItem('token');
-     if (token) {
-       config.headers.Authorization = `Bearer ${token}`;
-     }
-     console.log("se ejecuta interceptors")
-     return config;
+      const token = localStorage.getItem("token");
+      if (token) {
+         config.headers.Authorization = `Bearer ${token}`;
+      }
+      console.log("se ejecuta interceptors");
+      return config;
    },
    (error) => Promise.reject(error)
- );
+);

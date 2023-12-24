@@ -38,6 +38,10 @@ export default function Home() {
    const handleEdit = (i) => {
       navigate("/measure/" + i);
    };
+
+   const handleView = (i) => {
+      navigate("/measure/view/" + i);
+   };
    return (
       <div className="bg-dark vh-100">
          <SearchMenu />
@@ -89,6 +93,12 @@ export default function Home() {
                                 ).toString()
                               : "Fecha desconocida"}</td>
                         <td>
+                        <button
+                              className="btn btn-secondary me-2"
+                              onClick={() => handleView(d.id)}
+                           >
+                              <i className="bi bi-eye-fill"></i>
+                           </button>
                            <button
                               className="btn btn-warning me-2"
                               onClick={() => handleEdit(d.id)}

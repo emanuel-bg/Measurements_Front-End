@@ -6,10 +6,12 @@ import searchMeasures from "./searchMeasures"
 import putMeasure from "./putMeasure"
 import verifySession from "./verifySession"
 import Logout from "./Logout"
+import getMeasure from "./getMeasure"
 const requests={
 "Login":Login,
 "Logout":Logout,
 "getMeasures":getMeasures,
+"getMeasure":getMeasure,
 "postMeasure":postMeasure,
 "putMeasure":putMeasure,
 "deleteMeasure":deleteMeasure,

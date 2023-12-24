@@ -29,7 +29,6 @@ export default function NewMeasure() {
       amount: "",
       calendarDate: "",
       measuredby: "",
-      userId: "",
       image: "",
    };
 
@@ -66,8 +65,6 @@ export default function NewMeasure() {
       const formOk = Object.keys(errors).length;
       if (!formOk) {
          console.log(measureData);
-         measureData.userId = user.id;
-         measureData.measuredby = user.username;
          measureData.date = getUnixTime(new Date(measureData.calendarDate));
          dispatch(PostMeasure(measureData));
          console.log("Se actualizo measures");
