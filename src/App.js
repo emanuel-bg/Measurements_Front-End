@@ -3,12 +3,14 @@ import UserLogin from "./components/Auth/UserLogin";
 import LoggedUser from "./pages/LoggedUser";
 import { useSelector } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-//import "./css/bg.css"
+//import "./css/bg.css" TODO remove unused imports and commented ones
 
 function App() {
    const user = useSelector((state) => state.user);
+
    return (
       <>
          <BrowserRouter>

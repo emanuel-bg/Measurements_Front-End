@@ -1,3 +1,4 @@
+// TODO remove unused variables, for example thunkAPI
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import requests from "./../API/requests";
@@ -9,6 +10,8 @@ const userLogin = createAsyncThunk("user/login", async (userData, thunkAPI) => {
       return user;
    } catch (error) {
       if (error.response.status === 422) {
+         // TODO add ? to avoid responses where the expected data structure is
+         // not present. Example: error?.response?.data?.errors?.email
          throw new Error(error.response.data.errors.email[0]);
       } else {
          throw new Error("Server error");
@@ -21,7 +24,7 @@ export const Logout = createAsyncThunk("user/logout", async (userData, thunkAPI)
       const user = await requests["Logout"]();
       return user;
    } catch (error) {
-         throw new Error("Server error");
+      throw new Error("Server error");
    }
 });
 
@@ -33,6 +36,7 @@ export const verifySession = createAsyncThunk(
          return user;
       } catch (error) {
          if (error.response.status === 422) {
+            // TODO see feedback from userLogin
             throw new Error(error.response.data.errors.email[0]);
          } else {
             throw new Error("Server error");
@@ -40,6 +44,7 @@ export const verifySession = createAsyncThunk(
       }
    }
 );
+
 export const initialState = {
    id: "",
    name: "",
@@ -84,7 +89,7 @@ export const userSlice = createSlice({
          })
          .addCase(verifySession.fulfilled, (state, action) => {
             const { id, name, username, email, image } =
-            action.payload.data;
+               action.payload.data;
             state.id = id;
             state.name = name
             state.username = username;
@@ -92,22 +97,22 @@ export const userSlice = createSlice({
             state.image = image;
          }).
          addCase(verifySession.rejected, (state, action) => {
-           state.token=""
-           state.id = "";
+            state.token = ""
+            state.id = "";
             state.name = ""
             state.username = "";
             state.email = "";
             state.image = "";
          }).addCase(Logout.fulfilled, (state, action) => {
-             state.token=""
-             state.id = "";
-             state.name = ""
-             state.username = "";
-             state.email = "";
-             state.image = "";
-             localStorage.clear()
+            state.token = ""
+            state.id = "";
+            state.name = ""
+            state.username = "";
+            state.email = "";
+            state.image = "";
+            localStorage.clear()
          }).addCase(Logout.rejected, (state, action) => {
-            state.token=""
+            state.token = ""
          });;
    },
 });

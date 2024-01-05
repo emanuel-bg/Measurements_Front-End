@@ -1,3 +1,4 @@
+// TODO remove unused variables
 import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +11,7 @@ import format from "date-fns/format";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { utcToZonedTime } from "date-fns-tz";
 import SearchMenu from "../components/Auth/SearchMenu";
+
 export default function Home() {
    const dispatch = useDispatch();
    const navigate = useNavigate();
@@ -29,8 +31,6 @@ export default function Home() {
       dispatch(GetMeasures());
    }, [dispatch]);
 
-
-
    const handleDelete = async (i, e) => {
       dispatch(DeleteMeasure(selected));
       handleClose();
@@ -42,6 +42,7 @@ export default function Home() {
    const handleView = (i) => {
       navigate("/measure/view/" + i);
    };
+
    return (
       <div className="bg-dark vh-100">
          <SearchMenu />
@@ -63,37 +64,37 @@ export default function Home() {
                      <tr key={i}>
                         <td>{d.amount}</td>
                         <td>
-                           {d.date
+                           {d.date // TODO too much logic on jsx, move it to a variable inside this function so it helps maintain and read
                               ? format(
-                                   utcToZonedTime(
-                                      d.date * 1000,
-                                      "America/Costa_Rica"
-                                   ),
-                                   "dd/MM/yyyy hh:mm a"
-                                )
+                                 utcToZonedTime(
+                                    d.date * 1000,
+                                    "America/Costa_Rica"
+                                 ),
+                                 "dd/MM/yyyy hh:mm a"
+                              )
                               : "Fecha desconocida"}
                         </td>
                         <td>{d.measuredby}</td>
-                        <td>{d.created_at
-                              ? format(
-                                   utcToZonedTime(
-                                      +d.created_at *1000,
-                                      "America/Costa_Rica"
-                                   ),
-                                   "dd/MM/yyyy hh:mm a"
-                                ).toString()
-                              : "Fecha desconocida"}</td>
-                        <td>{d.updated_at
-                              ? format(
-                                   utcToZonedTime(
-                                      +d.updated_at*1000,
-                                      "America/Costa_Rica"
-                                   ),
-                                   "dd/MM/yyyy hh:mm a"
-                                ).toString()
-                              : "Fecha desconocida"}</td>
+                        <td>{d.created_at // TODO too much logic on jsx, move it to a variable inside this function so it helps maintain and read
+                           ? format(
+                              utcToZonedTime(
+                                 +d.created_at * 1000,
+                                 "America/Costa_Rica"
+                              ),
+                              "dd/MM/yyyy hh:mm a"
+                           ).toString()
+                           : "Fecha desconocida"}</td>
+                        <td>{d.updated_at // TODO too much logic on jsx, move it to a variable inside this function so it helps maintain and read
+                           ? format(
+                              utcToZonedTime(
+                                 +d.updated_at * 1000,
+                                 "America/Costa_Rica"
+                              ),
+                              "dd/MM/yyyy hh:mm a"
+                           ).toString()
+                           : "Fecha desconocida"}</td>
                         <td>
-                        <button
+                           <button
                               className="btn btn-secondary me-2"
                               onClick={() => handleView(d.id)}
                            >
@@ -118,6 +119,7 @@ export default function Home() {
                </tbody>
             </table>
          </div>
+
          <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
                <Modal.Title>Delete Measure</Modal.Title>
