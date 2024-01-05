@@ -2,9 +2,8 @@ import React from "react";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 
 export default function Profile() {
+   const user = useSelector((state) => (state.user))
 
-
-   const user=useSelector((state)=>(state.user))
    return (
       <>
          <div className="bg-dark vh-100">

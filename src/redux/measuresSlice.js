@@ -1,6 +1,10 @@
+// TODO remove usused variables
+// TODO remove console.log. It should be used only on development. In production
+// we should use another service like Sentry
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import requests from "../API/requests";
+
 export const initialState = {
    measures: [],
    selectedMeasure: {},
@@ -95,7 +99,9 @@ export const measuresSlice = createSlice({
             state.measures = [];
          })
          .addCase(GetMeasure.fulfilled, (state, action) => {
-            debugger;
+            debugger; // TODO remove debugger
+            // TODO this is a big piece of logic, consider moving it to its own file
+            // add unit tests
             let measureData = action.payload.data;
             const date = new Date(measureData.date * 1000);
             const year = date.getFullYear();
@@ -114,6 +120,8 @@ export const measuresSlice = createSlice({
             state.measures = [...state.measures, action.payload.data];
          })
          .addCase(PutMeasure.fulfilled, (state, action) => {
+            // TODO this is a big piece of logic, consider moving it to its own file
+            // add unit tests
             const measures = state.measures;
             for (let i = 0; i < measures.length; i++) {
                if (action.payload.id === measures[i].id) {
@@ -130,6 +138,8 @@ export const measuresSlice = createSlice({
             state.measures = [];
          })
          .addCase(DeleteMeasure.fulfilled, (state, action) => {
+            // TODO add ? to avoid issues on unexpected data
+            // action?.payload?.data
             const measures = state.measures.filter(
                (o) =>
                   o.id.toString() !== action.payload.data.deletedId.toString()

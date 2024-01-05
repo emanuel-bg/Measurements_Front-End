@@ -1,17 +1,20 @@
+// TODO consider moving each helper to its own file
+
 /* eslint-disable no-useless-escape */
-export function validateEmail(email) {
-   const val = /^\S+@\S+\.\S+$/;
+export function validateEmail(email) {  // TODO add unit tests
+   const val = /^\S+@\S+\.\S+$/; // TODO add link where this regex was taken
    return val.test(String(email).toLowerCase());
 }
-export function validatePassword(password) {
-   // Definir los criterios de la contraseña
-   var minLongitud = 5;
+
+export function validatePassword(password) { // TODO add unit tests
+   // Definir los criterios de la contraseña # TODO use English only for comments
+   var minLongitud = 5; // TODO use const or let. Do not use var
    var maxLongitud = 20;
    var tieneMayuscula = false;
    var tieneMinuscula = false;
    var tieneDigito = false;
    var tieneEspecial = false;
-   var characteresEspeciales = "$@$!%*?&";
+   var characteresEspeciales = "$@$!%*?&"; // TODO use English only
 
    // Comprobar la longitud de la contraseña
    if (password.length < minLongitud || password.length > maxLongitud) {
@@ -42,21 +45,32 @@ export function validatePassword(password) {
          tieneEspecial = true;
       }
    }
+
    return tieneMayuscula && tieneMinuscula && tieneDigito && tieneEspecial;
 }
+
 export function validateJustNumbers(n) {
-   if(n.length===0){return false}
+   if (n.length === 0) { return false } // TODO multi-line if statements
+
    for (let i = 0; i < n.length; i++) {
       var character = n[i];
       if (isNaN(parseInt(character))) {
          return false;
       }
    }
+
    return true;
 }
-function validateLetters(w) {
+
+// TODO use complete word instead of `w`
+function validateLetters(w) { // TODO add unit tests
    for (let i = 0; i < w.length; i++) {
       const character = w[i];
+      // TODO do not use multi-line parameters in if statement, after adding
+      // unit tests, refactor using an approach like:
+      // const noEmpty = character !== ' ';
+      // const betweenAZ = ....
+      // if (noEmpty || betweenAZ)...
       if (
          character !== " " &&
          (character < "A" ||
@@ -66,9 +80,11 @@ function validateLetters(w) {
          return false;
       }
    }
+
    return true;
 }
 
+// TODO see feedaback from NoNull
 function NoSpacesAndNull(w) {
    if (w.trim() === "" || w.includes(" ")) {
       return false;
@@ -76,19 +92,27 @@ function NoSpacesAndNull(w) {
    return true;
 }
 
-function NoNull(w) {
+// TODO use complete word instead of `w`
+function NoNull(w) { // TODO add unit tests
+   // TODO after adding unit tests, this can be simplified to just
+   // return w.trim() === ''
+
    if (w.trim() === "") {
       return false;
    }
+
    return true;
 }
 
 export function validateMeasureAmount(amount) {
    return validateJustNumbers(amount) && NoSpacesAndNull(amount);
 }
+
 export function validateMeasureDate(date) {
    return NoSpacesAndNull(date);
+
 }
+
 export function validateMeasureMeasuredby(measuredby) {
    return validateLetters(measuredby) && NoNull(measuredby);
 }

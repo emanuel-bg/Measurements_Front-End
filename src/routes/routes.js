@@ -1,3 +1,6 @@
+// TODO since we only have one file inside ./routes folder, consider moving
+// file outside ./routes folder it will help with flat forlder structure which
+// in my oppinion should be preffered
 import React from "react";
 import Home from "../pages/Home";
 import About from "../pages/About";

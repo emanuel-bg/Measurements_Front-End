@@ -6,27 +6,24 @@ import { verifySession } from "../redux/userSlice";
 import { GetMeasures } from "../redux/measuresSlice";
 import { useEffect } from "react";
 
-
-
-export default function LoggedUser(props) {
-
+export default function LoggedUser(props) { // TODO remove unused variable
    const dispatch = useDispatch();
 
    useEffect(() => {
       dispatch(verifySession())
       dispatch(GetMeasures())
    }, []);
-   
+
    return (
       <>
          {" "}
          <div>
-         
-               <div className="text-light ">
-                  <NavBar />
-                  <Content />
-               </div>
-            
+
+            <div className="text-light ">
+               <NavBar />
+               <Content />
+            </div>
+
          </div>
       </>
    );

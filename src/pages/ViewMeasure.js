@@ -10,7 +10,7 @@ export default function ViewMeasure() {
    const params = useParams();
    const measures = useSelector((state) => state.measures);
    const dispatch = useDispatch();
-   
+
    useEffect(() => {
       dispatch(GetMeasure(params.id));
    }, [dispatch,params.id]);
@@ -33,7 +33,7 @@ export default function ViewMeasure() {
                         </li>
                         <li className="list-group-item">
                            <strong>Date:</strong>{" "}
-                           {measures.selectedMeasure.date
+                           {measures.selectedMeasure.date // TODO move this logic to a variable outside of the jsx code, it will help read and maintain
                               ? format(
                                    utcToZonedTime(
                                       +measures.selectedMeasure.date * 1000,
@@ -58,12 +58,12 @@ export default function ViewMeasure() {
                         </li>
                         <li className="list-group-item">
                            <strong>Created At:</strong>{" "}
-                           {measures.selectedMeasure.created_at
+                           {measures.selectedMeasure.created_at // TODO move this logic to a variable outside of the jsx code, it will help read and maintain
                               ? format(
                                    utcToZonedTime(
                                       +measures.selectedMeasure.created_at *
                                          1000,
-                                      "America/Costa_Rica"
+                                      "America/Costa_Rica" // TODO timezone should not be hardcoded, it should come from config, env variable or API
                                    ),
                                    "dd/MM/yyyy hh:mm a"
                                 ).toString()
@@ -71,7 +71,7 @@ export default function ViewMeasure() {
                         </li>
                         <li className="list-group-item">
                            <strong>Updated At:</strong>{" "}
-                           {measures.selectedMeasure.updated_at
+                           {measures.selectedMeasure.updated_at // TODO move this logic to a variable outside of the jsx code, it will help read and maintain
                               ? format(
                                    utcToZonedTime(
                                       +measures.selectedMeasure.updated_at *

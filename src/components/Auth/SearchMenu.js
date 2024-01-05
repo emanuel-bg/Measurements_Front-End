@@ -7,24 +7,26 @@ import { getUnixTime } from "date-fns";
 function validate(search) {
    let errors = {};
    switch (search.selectedAttribute) {
-      
       case "date":
          if (!validateJustNumbers(search.search)) {
             errors.searchText = "Invalid date";
          }
          break;
+
       case "amount":
-         if (
+         if ( // TODO refactor to a single line if statement using variables
             !validateJustNumbers(search.search) ||
             search.search === null
          ) {
             errors.searchText = "Invalid amount(Just numbers)";
          }
          break;
+
       default:
          errors.attribute = "Invalid attribute";
          break;
    }
+
    return errors;
 }
 
@@ -50,10 +52,10 @@ const SearchMenu = () => {
    };
 
    const onSearch = (selectedAttribute, searchText) => {
-      var search = "";
-      debugger
+      var search = ""; // TODO use let or const
+      debugger // TODO remove debugger
+
       if (selectedAttribute === "date") {
-         
          search = getUnixTime(new Date(searchText)).toString();
       } else {
          search = searchText;
@@ -62,6 +64,7 @@ const SearchMenu = () => {
       const errors = validate({ selectedAttribute, search });
       setFormErrors(errors);
       const formOk = Object.keys(errors).length;
+
       if (!formOk) {
          dispatch(SearchMeasures({ selectedAttribute, search }));
       }

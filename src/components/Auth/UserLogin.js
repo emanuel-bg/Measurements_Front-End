@@ -5,12 +5,13 @@ import { userLogin } from "../../redux/userSlice";
 import { validateEmail, validatePassword } from "../../utils/Validations";
 import { useSelector } from "react-redux";
 
-// import axios from "axios";
+// import axios from "axios"; TODO remove commented imports
 function validate(userData) {
    let errors = {};
    if (!validateEmail(userData.email)) {
       errors.emailText = "Invalid email format";
    }
+
    if (!validatePassword(userData.password)) {
       errors.passwordText =
          "The password does not meet the password policy requirements";
@@ -33,6 +34,7 @@ function UserLogin() {
       email: "",
       password: "",
    };
+
    const [userData, setuserData] = useState(userDataInitialState);
    const [formError, setFormError] = useState({});
    const handleChange = (e) => {
@@ -53,8 +55,8 @@ function UserLogin() {
 
       setFormError(errors);
       const formOk = Object.keys(errors).length;
-      if (!formOk) {
 
+      if (!formOk) {
          dispatch(userLogin(userData));
          navigate("/");
       }
@@ -99,7 +101,7 @@ function UserLogin() {
                         <span className="text-danger">
                            {user.userLoginError}
                         </span>
-                     
+
                   </div>
                   <button type="submit" className="btn btn-primary mt-2">
                      Sign in

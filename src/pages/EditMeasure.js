@@ -6,6 +6,7 @@ import getUnixTime from "date-fns/getUnixTime";
 import { validateMeasureAmount } from "../utils/Validations";
 import { useEffect } from "react";
 
+// TODO duplicated inside NewMeasurement
 function validate(measureData) {
    let errors = {};
    if (!validateMeasureAmount(measureData.amount.toString())) {
