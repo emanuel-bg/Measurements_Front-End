@@ -1,30 +1,10 @@
-// TODO remove unused imports
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { PostMeasure } from "../redux/measuresSlice";
-import { useSelector } from "react-redux/es/hooks/useSelector";
 import { getUnixTime } from "date-fns";
-
-import {
-   validateMeasureAmount,
-   validateMeasureDate,
-   validateMeasureMeasuredby,
-   validateMeasureUserId,
-} from "../utils/Validations";
-
-function validate(measureData) {
-   let errors = {};
-   if (!validateMeasureAmount(measureData.amount)) {
-      errors.amount = "Invalid measure amount";
-      //Only numbers available TODO move comment to the top of the above if statement, it helps readability
-   }
-   if (!validateMeasureDate(measureData.calendarDate)) {
-      errors.date = "Invalid date";
-      //Only numbers available TODO remove this comment, it is not related to the current scope
-   }
-   return errors;
-}
+import { validate } from "../utils/validations";
 
 export default function NewMeasure() {
    const measureDataInitialState = {
@@ -50,16 +30,12 @@ export default function NewMeasure() {
       setmeasureData((prevData) => {
          return { ...prevData, image: value };
       });
-      console.log(measureData);
    };
 
    const navigate = useNavigate();
    const dispatch = useDispatch();
-   const user = useSelector((state) => state.user);
 
    const handleNewMeasure = async (e) => {
-      console.log(user.currentUser); // TODO remove any console.log ( see README.md#TODO)
-      console.log(user);
       e.preventDefault();
 
       setFormError({});
@@ -69,7 +45,6 @@ export default function NewMeasure() {
       const formOk = Object.keys(errors).length;
 
       if (!formOk) {
-         console.log(measureData);
          measureData.date = getUnixTime(new Date(measureData.calendarDate));
          dispatch(PostMeasure(measureData));
          console.log("Se actualizo measures");

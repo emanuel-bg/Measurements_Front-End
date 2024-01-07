@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userLogin } from "../../redux/userSlice";
-import { validateEmail, validatePassword } from "../../utils/Validations";
+import { validateEmail, validatePassword } from "../../utils/validations";
 import { useSelector } from "react-redux";
-
-// import axios from "axios"; TODO remove commented imports
 function validate(userData) {
    let errors = {};
    if (!validateEmail(userData.email)) {

@@ -3,7 +3,7 @@
 // we should use another service like Sentry
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import requests from "../API/requests";
+import requests from "../api";
 
 export const initialState = {
    measures: [],

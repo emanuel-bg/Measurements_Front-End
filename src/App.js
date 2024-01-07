@@ -6,7 +6,6 @@ import { BrowserRouter } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-//import "./css/bg.css" TODO remove unused imports and commented ones
 
 function App() {
    const user = useSelector((state) => state.user);

@@ -5,6 +5,18 @@ export function validateEmail(email) {  // TODO add unit tests
    const val = /^\S+@\S+\.\S+$/; // TODO add link where this regex was taken
    return val.test(String(email).toLowerCase());
 }
+export function validate(measureData) {
+   let errors = {};
+   if (!validateMeasureAmount(measureData.amount.toString())) {
+      errors.amount = "Invalid measure amount";
+      //Only numbers available
+   }
+   if (!measureData.calendarDate) {
+      errors.date = "Invalid date";
+      //Only numbers available
+   }
+   return errors;
+}
 
 export function validatePassword(password) { // TODO add unit tests
    // Definir los criterios de la contraseña # TODO use English only for comments

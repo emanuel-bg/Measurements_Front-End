@@ -1,20 +1,16 @@
-// TODO since this file is meant to be used as summary of all the requests
-// available, consider renaming it to index.js it will looks more like js
-// conventions.
-import Login from "./Login"
+import login from "./login"
 import getMeasures from "./getMeasures"
 import postMeasure from "./postMeasure"
 import deleteMeasure from "./deleteMeasure"
 import searchMeasures from "./searchMeasures"
 import putMeasure from "./putMeasure"
 import verifySession from "./verifySession"
-import Logout from "./Logout"
+import logout from "./logout"
 import getMeasure from "./getMeasure"
 
-// TODO consider using camelCase login instead of Login
 const requests = {
-   "Login": Login,
-   "Logout": Logout,
+   "login": login,
+   "logout": logout,
    "getMeasures": getMeasures,
    "getMeasure": getMeasure,
    "postMeasure": postMeasure,

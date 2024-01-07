@@ -14,7 +14,7 @@ insert_final_newline = true
 # Set default charset
 [*.js]
 charset = utf-8
-indent_size = 3 # TODO set to 4, usually used in JS
+indent_size = 4 
 
 
 # Tab indentation (no size specified)

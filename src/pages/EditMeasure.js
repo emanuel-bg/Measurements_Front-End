@@ -1,25 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { PutMeasure, GetMeasure, GetMeasures } from "../redux/measuresSlice";
+import { PutMeasure, GetMeasure } from "../redux/measuresSlice";
 import getUnixTime from "date-fns/getUnixTime";
-import { validateMeasureAmount } from "../utils/Validations";
 import { useEffect } from "react";
+import { validate } from "../utils/validations";
 
-// TODO duplicated inside NewMeasurement
-function validate(measureData) {
-   let errors = {};
-   if (!validateMeasureAmount(measureData.amount.toString())) {
-      errors.amount = "Invalid measure amount";
-      //Only numbers available
-   }
-   if (!measureData.calendarDate) {
-      errors.date = "Invalid date";
-      //Only numbers available
-   }
-
-   return errors;
-}
 
 export default function EditMeasure() {
    const params = useParams();

@@ -1,27 +1,24 @@
-// TODO remove unused variables, for example thunkAPI
+
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import requests from "./../API/requests";
+import requests from "../api";
 
-const userLogin = createAsyncThunk("user/login", async (userData, thunkAPI) => {
+const userLogin = createAsyncThunk("user/login", async (userData) => {
    try {
-      const user = await requests["Login"](userData);
-      //aqui configurar axios
+      const user = await requests["login"](userData);
       return user;
    } catch (error) {
       if (error.response.status === 422) {
-         // TODO add ? to avoid responses where the expected data structure is
-         // not present. Example: error?.response?.data?.errors?.email
-         throw new Error(error.response.data.errors.email[0]);
+         throw new Error(error?.response?.data?.errors?.email[0]);
       } else {
          throw new Error("Server error");
       }
    }
 });
 
-export const Logout = createAsyncThunk("user/logout", async (userData, thunkAPI) => {
+export const Logout = createAsyncThunk("user/logout", async (userData) => {
    try {
-      const user = await requests["Logout"]();
+      const user = await requests["logout"]();
       return user;
    } catch (error) {
       throw new Error("Server error");
@@ -30,14 +27,13 @@ export const Logout = createAsyncThunk("user/logout", async (userData, thunkAPI)
 
 export const verifySession = createAsyncThunk(
    "user/verifySession",
-   async (userData, thunkAPI) => {
+   async (userData) => {
       try {
          const user = await requests["verifySession"]();
          return user;
       } catch (error) {
          if (error.response.status === 422) {
-            // TODO see feedback from userLogin
-            throw new Error(error.response.data.errors.email[0]);
+            throw new Error(error?.response?.data?.errors?.email[0]);
          } else {
             throw new Error("Server error");
          }
@@ -95,8 +91,8 @@ export const userSlice = createSlice({
             state.username = username;
             state.email = email;
             state.image = image;
-         }).
-         addCase(verifySession.rejected, (state, action) => {
+         })
+         .addCase(verifySession.rejected, (state, action) => {
             state.token = ""
             state.id = "";
             state.name = ""

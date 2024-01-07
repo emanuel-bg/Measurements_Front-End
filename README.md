@@ -2,7 +2,7 @@ Measurements_Front-End
 ==========
 A frontend application for my portfolio.
 
-The Back-End is in [Measurements_Back-End][Back-End] # TODO add link to repository
+The Back-End is in [Measurements_Back-End][Back-End]
 
 Table of Contents
 -----------------
@@ -17,7 +17,7 @@ Requirements
 
 This front-end app requires the following to run:
 
-  * [Node.js][node] 0.10+ # TODO udpate to proper version of node required
+  * [Node.js][node] 21.4.0 # TODO udpate to proper version of node required
   * [npm][npm] (normally comes with Node.js)
 
 
@@ -50,7 +50,7 @@ Copyright &copy; 2023, Emmanuel Barrientos
 # TODO
 
 - [ ] Fix vulnerabilities displayed when `npm install`
-  - 9 vulnerabilities (3 moderate, 6 high)
+  - 9 vulnerabilities (3 moderate, 6 high) DONE
 - [ ] Add .env.example with required env variables without real value
 - [ ] Fix eslint warnings ( displayed on npm start)
 - [ ] Remove unncessary files like a.png and logo.svg and any non used file.
