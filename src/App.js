@@ -8,17 +8,17 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 function App() {
-   const user = useSelector((state) => state.user);
+    const user = useSelector((state) => state.user);
 
-   return (
-      <>
-         <BrowserRouter>
-            <div className="bg-dark W-100">
-               {!user.token ? <UserLogin /> : <LoggedUser />}
-            </div>
-         </BrowserRouter>
-      </>
-   );
+    return (
+        <>
+            <BrowserRouter>
+                <div className="bg-dark W-100">
+                    {!user.token ? <UserLogin /> : <LoggedUser />}
+                </div>
+            </BrowserRouter>
+        </>
+    );
 }
 
 export default App;

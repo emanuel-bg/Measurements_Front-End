@@ -1,29 +1,25 @@
-Measurements_Front-End
-==========
+# Measurements_Front-End
+
 A frontend application for my portfolio.
 
 The Back-End is in [Measurements_Back-End][Back-End]
 
-Table of Contents
------------------
+## Table of Contents
 
-  * [Requirements](#requirements)
-  * [Usage](#usage)
-  * [License](#license)
+- [Requirements](#requirements)
+- [Usage](#usage)
+- [License](#license)
 
-
-Requirements
-------------
+## Requirements
 
 This front-end app requires the following to run:
 
-  * [Node.js][node] 21.4.0 # TODO udpate to proper version of node required
-  * [npm][npm] (normally comes with Node.js)
+- [Node.js][node] 21.4.0 # TODO udpate to proper version of node required
+- [npm][npm] (normally comes with Node.js)
 
+## Usage
 
-Usage
------
-When is installed  [npm][npm]:
+When is installed [npm][npm]:
 
 ```sh
 npm i
@@ -33,14 +29,12 @@ npm i
 npm start
 ```
 
-License
--------
+## License
 
 Measurements_Front-End is licensed under the [MIT](#) license.
 Copyright &copy; 2023, Emmanuel Barrientos
 
-
-[Back-End]:https://github.com/emanuel-bg/Measurements_Back-End
+[Back-End]: https://github.com/emanuel-bg/Measurements_Back-End
 [node]: https://nodejs.org/
 [npm]: https://www.npmjs.com/
 [shield-node]: https://img.shields.io/badge/node.js%20support-0.10–5-brightgreen.svg
@@ -49,13 +43,13 @@ Copyright &copy; 2023, Emmanuel Barrientos
 
 # TODO
 
-- [ ] Fix vulnerabilities displayed when `npm install`
+- [ ] Fix vulnerabilities displayed when `npm install` Done running npm audit -production
   - 9 vulnerabilities (3 moderate, 6 high) DONE
-- [ ] Add .env.example with required env variables without real value
-- [ ] Fix eslint warnings ( displayed on npm start)
-- [ ] Remove unncessary files like a.png and logo.svg and any non used file.
-- [ ] Format code, there are several files without proper formatting. It will help with readability of the code.
-- [ ] Consider renaming API to api, it is easier to type.
-- [ ] Change any Spanish comments to English comments
-- [ ] Remove debugger and console.log, it should be used only on development.
+- [ ] Add .env.example with required env variables without real value PENDING
+- [ ] Fix eslint warnings ( displayed on npm start) DONE
+- [ ] Remove unncessary files like a.png and logo.svg and any non used file. DONE
+- [ ] Format code, there are several files without proper formatting. It will help with readability of the code. DONE
+- [ ] Consider renaming API to api, it is easier to type. DONE
+- [ ] Change any Spanish comments to English comments DONE
+- [ ] Remove debugger and console.log, it should be used only on development. DONE
   - In production we should use external service like Sentry for error logs.

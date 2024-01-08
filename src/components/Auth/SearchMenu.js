@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { GetMeasures, SearchMeasures } from "../../redux/measuresSlice";
-import { validateJustNumbers } from "../../utils/validations";
+import validateJustNumbers from "../../utils/validateJustNumbers";
 import { getUnixTime } from "date-fns";
 
 function validate(search) {

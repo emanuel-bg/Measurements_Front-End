@@ -7,24 +7,22 @@ import { GetMeasures } from "../redux/measuresSlice";
 import { useEffect } from "react";
 
 export default function LoggedUser() {
-   const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-   useEffect(() => {
-      dispatch(verifySession())
-      dispatch(GetMeasures())
-   }, [dispatch]);
+    useEffect(() => {
+        dispatch(verifySession());
+        dispatch(GetMeasures());
+    }, [dispatch]);
 
-   return (
-      <>
-         {" "}
-         <div>
-
-            <div className="text-light ">
-               <NavBar />
-               <Content />
+    return (
+        <>
+            {" "}
+            <div>
+                <div className="text-light ">
+                    <NavBar />
+                    <Content />
+                </div>
             </div>
-
-         </div>
-      </>
-   );
+        </>
+    );
 }
