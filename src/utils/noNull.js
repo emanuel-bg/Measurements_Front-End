@@ -1,3 +1,4 @@
-export default function NoNull(word) {
+export default function noNull(word) {
     return word.trim() != "";
 }
+

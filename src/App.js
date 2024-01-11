@@ -3,7 +3,6 @@ import UserLogin from "./components/Auth/UserLogin";
 import LoggedUser from "./pages/LoggedUser";
 import { useSelector } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
